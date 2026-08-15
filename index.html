@@ -1,325 +1,219 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="Puff Tracker" />
-  <meta name="theme-color" content="#07150f" />
-  <link rel="manifest" href="manifest.json" />
-  <link rel="apple-touch-icon" href="icon-192.png" />
-  <title>Puff Tracker</title>
-  <style>
-    :root {
-      --bg: #06130d;
-      --panel: rgba(255,255,255,.055);
-      --panel2: rgba(255,255,255,.085);
-      --text: #f4f7f5;
-      --muted: #9ca8a1;
-      --green: #72e89b;
-      --green2: #45c977;
-      --danger: #ff6b60;
-      --line: rgba(255,255,255,.10);
-    }
-    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-    html, body {
-      margin: 0;
-      min-height: 100%;
-      background:
-        radial-gradient(circle at 50% -10%, rgba(76,211,126,.15), transparent 35%),
-        linear-gradient(180deg, #07160f 0%, #06110c 55%, #050d09 100%);
-      color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    }
-    body {
-      min-height: 100vh;
-      padding: calc(env(safe-area-inset-top) + 16px) 18px calc(env(safe-area-inset-bottom) + 28px);
-    }
-    .app { max-width: 520px; margin: 0 auto; }
-    header { display:flex; align-items:center; justify-content:space-between; margin: 4px 0 20px; }
-    h1 { font-size: 30px; margin: 0; letter-spacing: -.6px; }
-    .sub { color: var(--muted); font-size: 14px; margin-top: 5px; }
-    .gear {
-      border: 0; background: var(--panel); color: var(--text);
-      width: 44px; height:44px; border-radius: 14px; font-size: 20px;
-    }
-    .card {
-      background: var(--panel);
-      border: 1px solid rgba(255,255,255,.05);
-      box-shadow: 0 12px 35px rgba(0,0,0,.18);
-      border-radius: 24px;
-      padding: 22px;
-      backdrop-filter: blur(14px);
-    }
-    .today-label { color: #d9e2dd; font-size: 14px; }
-    .count-wrap { text-align:center; padding: 18px 0 8px; }
-    .ring {
-      --p: 0deg;
-      width: 212px; height: 212px; margin: 0 auto 12px;
-      border-radius: 50%;
-      display:grid; place-items:center;
-      background: conic-gradient(var(--green) var(--p), rgba(114,232,155,.13) 0);
-      position:relative;
-    }
-    .ring::after {
-      content:""; position:absolute; inset:12px; border-radius:50%;
-      background: #0b1d14;
-    }
-    .ring-inner { position:relative; z-index:1; text-align:center; }
-    .count { font-size: 62px; font-weight: 800; line-height:.95; }
-    .puffs { font-size: 16px; margin-top:8px; font-weight:700; letter-spacing:.5px; }
-    .targetline { margin-top:6px; color: var(--muted); font-size: 14px; }
-    .remaining { color: var(--green); font-weight:700; margin-top:12px; }
-    .stats {
-      display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:14px 0;
-    }
-    .stat {
-      background: var(--panel);
-      border-radius:18px;
-      padding:16px;
-    }
-    .stat .label { color:var(--muted); font-size:12px; }
-    .stat .value { font-size:23px; font-weight:800; margin-top:5px; }
-    .puff-btn {
-      width:100%; height:118px; border:0; border-radius:30px;
-      background: linear-gradient(135deg, #86efaa, #4ed47f);
-      color:#062311; box-shadow: 0 18px 40px rgba(61,204,112,.20);
-      font-size:29px; font-weight:900; margin: 8px 0 12px;
-      touch-action: manipulation;
-    }
-    .puff-btn small { display:block; font-size:13px; font-weight:600; margin-top:6px; opacity:.75; }
-    .actions { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-    .action {
-      min-height:54px; border:0; border-radius:17px; background: var(--panel2);
-      color:var(--text); font-size:15px; font-weight:700;
-    }
-    .danger { color: var(--danger); }
-    .section-title { margin: 25px 2px 12px; font-size: 17px; font-weight:800; }
-    .history-row {
-      display:flex; justify-content:space-between; padding:14px 0;
-      border-bottom:1px solid var(--line);
-    }
-    .history-row:last-child { border-bottom:0; }
-    .history-date { color:#dce4df; }
-    .history-count { font-weight:800; }
-    .empty { color:var(--muted); padding: 14px 0; }
-    .modal {
-      position:fixed; inset:0; display:none; align-items:flex-end; justify-content:center;
-      background:rgba(0,0,0,.58); padding:18px;
-    }
-    .modal.show { display:flex; }
-    .sheet {
-      width:min(520px,100%); background:#0d1b14; border-radius:26px;
-      padding:22px; border:1px solid var(--line);
-    }
-    .sheet h2 { margin:0 0 16px; }
-    input {
-      width:100%; padding:16px; border-radius:16px; border:1px solid var(--line);
-      background:#07130e; color:var(--text); font-size:20px;
-    }
-    .sheet-actions { display:flex; gap:10px; margin-top:16px; }
-    .sheet-actions button { flex:1; padding:14px; border-radius:14px; border:0; font-weight:800; }
-    .save { background:var(--green); color:#052010; }
-    .cancel { background:var(--panel2); color:var(--text); }
-    .note { color:var(--muted); font-size:13px; line-height:1.45; margin-top:12px; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Puff Tracker">
+<meta name="theme-color" content="#07150f">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>Puff Tracker</title>
+<style>
+:root{
+ --bg:#06130d;--card:#0c1c14;--card2:#10241a;--text:#f5f7f6;--muted:#9cad9f;
+ --green:#72e89b;--green2:#47cc79;--red:#ff6e65;--line:rgba(255,255,255,.08)
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{
+ margin:0;min-height:100vh;color:var(--text);
+ font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+ background:radial-gradient(circle at 50% -10%,rgba(75,214,126,.16),transparent 35%),linear-gradient(#07160f,#050d09);
+ padding:calc(env(safe-area-inset-top) + 14px) 16px calc(env(safe-area-inset-bottom) + 30px)
+}
+.app{max-width:560px;margin:auto}
+header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+h1{margin:0;font-size:30px}.sub{color:var(--muted);font-size:13px;margin-top:4px}
+.iconbtn{border:0;background:rgba(255,255,255,.07);color:white;border-radius:14px;width:44px;height:44px;font-size:19px}
+.card{background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.05);border-radius:24px;padding:20px;box-shadow:0 14px 38px rgba(0,0,0,.18)}
+.hero{text-align:center;padding:24px 12px}
+.count{font-size:72px;font-weight:850;line-height:.9}.unit{font-size:15px;font-weight:800;letter-spacing:.6px;margin-top:10px}
+.progressbar{height:10px;background:rgba(255,255,255,.08);border-radius:10px;overflow:hidden;margin:18px 0 8px}
+.progressbar>div{height:100%;background:linear-gradient(90deg,var(--green2),var(--green));width:0}
+.row{display:flex;justify-content:space-between;gap:10px;color:var(--muted);font-size:13px}
+.green{color:var(--green);font-weight:800}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:11px;margin:12px 0}
+.stat{background:rgba(255,255,255,.055);border-radius:18px;padding:15px}
+.stat .label{color:var(--muted);font-size:12px}.stat .value{font-size:23px;font-weight:850;margin-top:5px}
+.puff{width:100%;height:115px;border:0;border-radius:30px;background:linear-gradient(135deg,#8cf0ad,#4ed47f);color:#062313;font-weight:900;font-size:29px;margin:7px 0 12px;box-shadow:0 18px 38px rgba(55,208,109,.20)}
+.puff small{display:block;font-size:12px;font-weight:650;margin-top:6px;opacity:.75}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.actions button{border:0;border-radius:16px;padding:15px;background:rgba(255,255,255,.08);color:white;font-weight:750}.actions .danger{color:var(--red)}
+.section{font-size:17px;font-weight:850;margin:24px 2px 11px}
+.tabs{display:flex;gap:8px;overflow:auto;margin-bottom:12px}
+.tab{white-space:nowrap;border:0;background:rgba(255,255,255,.07);color:var(--muted);padding:10px 14px;border-radius:14px;font-weight:700}
+.tab.active{background:rgba(114,232,155,.16);color:var(--green)}
+.hidden{display:none!important}
+.logrow,.histrow{padding:13px 0;border-bottom:1px solid var(--line)}
+.logrow:last-child,.histrow:last-child{border-bottom:0}
+.logtop,.histrow{display:flex;justify-content:space-between;gap:12px}.time{font-weight:800}.meta{color:var(--muted);font-size:12px;margin-top:5px}
+.badge{display:inline-block;padding:4px 8px;border-radius:10px;background:rgba(114,232,155,.10);color:var(--green);font-size:11px;margin-right:5px}
+.insight{padding:14px;border-radius:18px;background:rgba(255,255,255,.045);margin-top:10px}.insight b{display:block;margin-bottom:5px}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.62);display:none;align-items:flex-end;justify-content:center;padding:16px;z-index:10}.modal.show{display:flex}
+.sheet{width:min(560px,100%);background:#0c1b14;border:1px solid var(--line);border-radius:26px;padding:20px;max-height:88vh;overflow:auto}
+.sheet h2{margin:0 0 15px}.field{margin:14px 0}.field label{display:block;color:var(--muted);font-size:12px;margin-bottom:7px}
+input,select{width:100%;padding:14px;border-radius:14px;border:1px solid var(--line);background:#07130e;color:white;font-size:16px}
+.rangeLabels{display:flex;justify-content:space-between;color:var(--muted);font-size:11px}
+.sheetActions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}.sheetActions button{border:0;border-radius:14px;padding:14px;font-weight:850}.save{background:var(--green);color:#052111}.cancel{background:rgba(255,255,255,.08);color:white}
+.note{font-size:12px;color:var(--muted);line-height:1.45}
+</style>
 </head>
 <body>
-  <div class="app">
-    <header>
-      <div>
-        <h1>Puff Tracker</h1>
-        <div class="sub">One puff at a time, better every day.</div>
-      </div>
-      <button class="gear" id="settingsBtn">⚙︎</button>
-    </header>
+<div class="app">
+<header>
+ <div><h1>Puff Tracker</h1><div class="sub">Track the habit. Reduce it gradually.</div></div>
+ <button class="iconbtn" id="settingsBtn">⚙︎</button>
+</header>
 
-    <div class="card">
-      <div class="today-label" id="todayLabel">TODAY</div>
+<div class="card hero">
+ <div class="count" id="count">0</div>
+ <div class="unit">PUFFS TODAY</div>
+ <div class="progressbar"><div id="bar"></div></div>
+ <div class="row"><span>Target: <b id="targetText">40</b></span><span class="green"><span id="remaining">40</span> remaining</span></div>
+</div>
 
-      <div class="count-wrap">
-        <div class="ring" id="ring">
-          <div class="ring-inner">
-            <div class="count" id="count">0</div>
-            <div class="puffs">PUFFS</div>
-            <div class="targetline">of <span id="targetText">40</span> target</div>
-          </div>
-        </div>
-        <div class="remaining"><span id="remaining">40</span> puffs remaining</div>
-      </div>
-    </div>
+<div class="grid">
+ <div class="stat"><div class="label">7-Day Average</div><div class="value" id="avg7">0</div></div>
+ <div class="stat"><div class="label">Vs Yesterday</div><div class="value" id="vsYesterday">—</div></div>
+ <div class="stat"><div class="label">First Puff</div><div class="value" id="firstPuff">—</div></div>
+ <div class="stat"><div class="label">Avg Craving</div><div class="value" id="avgCraving">—</div></div>
+</div>
 
-    <div class="stats">
-      <div class="stat">
-        <div class="label">Today Progress</div>
-        <div class="value"><span id="percent">0</span>%</div>
-      </div>
-      <div class="stat">
-        <div class="label">7-Day Average</div>
-        <div class="value" id="average">0</div>
-      </div>
-    </div>
+<button class="puff" id="puffBtn">+ 1 PUFF<small>Tap to log details</small></button>
+<div class="actions">
+ <button id="quickBtn">Quick +1</button>
+ <button class="danger" id="undoBtn">Undo</button>
+</div>
 
-    <button class="puff-btn" id="puffBtn">
-      + 1 PUFF
-      <small>Tap every time you puff</small>
-    </button>
+<div class="section">Tracking</div>
+<div class="tabs">
+ <button class="tab active" data-tab="today">Today Log</button>
+ <button class="tab" data-tab="history">7-Day History</button>
+ <button class="tab" data-tab="insights">Insights</button>
+</div>
 
-    <div class="actions">
-      <button class="action" id="undoBtn">↶ Undo</button>
-      <button class="action danger" id="resetBtn">↻ Reset Day</button>
-    </div>
+<div id="todayTab" class="card"></div>
+<div id="historyTab" class="card hidden"></div>
+<div id="insightsTab" class="card hidden"></div>
+</div>
 
-    <div class="section-title">Last 7 Days</div>
-    <div class="card" id="historyCard">
-      <div class="empty">No history yet.</div>
-    </div>
-  </div>
+<div class="modal" id="logModal">
+<div class="sheet">
+ <h2>Log Puff</h2>
+ <div class="field">
+  <label>Trigger</label>
+  <select id="trigger">
+   <option>Habit / automatic</option><option>Stress</option><option>Boredom</option>
+   <option>After meal</option><option>Driving</option><option>Work break</option>
+   <option>Coffee</option><option>Social</option><option>Gaming / phone</option><option>Other</option>
+  </select>
+ </div>
+ <div class="field">
+  <label>Craving level: <b id="cravingValue">5</b>/10</label>
+  <input type="range" min="1" max="10" value="5" id="craving">
+  <div class="rangeLabels"><span>Low</span><span>High</span></div>
+ </div>
+ <div class="field">
+  <label>Situation / note (optional)</label>
+  <input id="note" placeholder="e.g. after lunch">
+ </div>
+ <div class="sheetActions"><button class="cancel" id="cancelLog">Cancel</button><button class="save" id="saveLog">Save +1</button></div>
+ </div>
+</div>
 
-  <div class="modal" id="settingsModal">
-    <div class="sheet">
-      <h2>Daily Target</h2>
-      <input type="number" min="1" inputmode="numeric" id="targetInput" />
-      <div class="note">Start by tracking your normal usage, then gradually lower this target.</div>
-      <div class="sheet-actions">
-        <button class="cancel" id="cancelSettings">Cancel</button>
-        <button class="save" id="saveSettings">Save</button>
-      </div>
-    </div>
-  </div>
+<div class="modal" id="settingsModal">
+<div class="sheet">
+ <h2>Settings</h2>
+ <div class="field"><label>Daily puff target</label><input type="number" min="1" id="targetInput"></div>
+ <div class="field"><label>Weekly reduction goal (%)</label><input type="number" min="0" max="50" id="reductionInput"></div>
+ <div class="note">A gradual target is easier to follow than a sudden large cut. Use the first few days to learn your normal pattern.</div>
+ <div class="sheetActions"><button class="cancel" id="cancelSettings">Cancel</button><button class="save" id="saveSettings">Save</button></div>
+ </div>
+</div>
 
 <script>
-const STORAGE_KEY = "puffTrackerDataV1";
-const todayKey = () => new Date().toISOString().slice(0,10);
+const KEY="puffTrackerV2";
+const dayKey=(d=new Date())=>{const x=new Date(d); x.setMinutes(x.getMinutes()-x.getTimezoneOffset()); return x.toISOString().slice(0,10)};
+let data={date:dayKey(),target:40,reductionGoal:10,days:{}};
 
-let data = {
-  currentDate: todayKey(),
-  count: 0,
-  target: 40,
-  history: {}
-};
+function todayObj(){
+ const k=dayKey();
+ if(!data.days[k]) data.days[k]={count:0,logs:[]};
+ return data.days[k];
+}
+function load(){try{const s=JSON.parse(localStorage.getItem(KEY));if(s)data={...data,...s}}catch{} rollover(); render()}
+function save(){localStorage.setItem(KEY,JSON.stringify(data))}
+function rollover(){const k=dayKey(); if(data.date!==k)data.date=k; todayObj(); save()}
+function addLog(details){
+ const t=todayObj(); t.count++;
+ t.logs.push({time:new Date().toISOString(),trigger:details.trigger||"Quick",craving:Number(details.craving||0),note:details.note||""});
+ save(); render(); if(navigator.vibrate)navigator.vibrate(35);
+}
+function undo(){
+ const t=todayObj(); if(t.count<=0)return;
+ t.count--; if(t.logs.length)t.logs.pop(); save(); render()
+}
+function lastDay(offset){
+ const d=new Date(); d.setDate(d.getDate()-offset); return data.days[dayKey(d)]||null
+}
+function fmtTime(iso){return new Date(iso).toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"})}
+function fmtDay(k){return new Date(k+"T12:00:00").toLocaleDateString([], {weekday:"short",month:"short",day:"numeric"})}
 
-function load() {
-  try {
-    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
-    if (saved) data = {...data, ...saved};
-  } catch {}
-  rollover();
-  render();
+function render(){
+ const t=todayObj(), pct=Math.min((t.count/data.target)*100,100);
+ count.textContent=t.count; targetText.textContent=data.target; remaining.textContent=Math.max(data.target-t.count,0); bar.style.width=pct+"%";
+ const vals=[]; for(let i=0;i<7;i++){const x=lastDay(i);if(x)vals.push(x.count)}
+ avg7.textContent=vals.length?(vals.reduce((a,b)=>a+b,0)/vals.length).toFixed(1):"0";
+ const y=lastDay(1);
+ if(y){const diff=t.count-y.count; vsYesterday.textContent=(diff>0?"+":"")+diff; vsYesterday.style.color=diff<=0?"var(--green)":"var(--red)"} else vsYesterday.textContent="—";
+ if(t.logs.length){firstPuff.textContent=fmtTime(t.logs[0].time);const cs=t.logs.map(x=>x.craving).filter(x=>x>0);avgCraving.textContent=cs.length?(cs.reduce((a,b)=>a+b,0)/cs.length).toFixed(1):"—"} else {firstPuff.textContent="—";avgCraving.textContent="—"}
+ renderToday(t); renderHistory(); renderInsights(t)
+}
+function renderToday(t){
+ if(!t.logs.length){todayTab.innerHTML='<div class="note">No puffs logged yet today.</div>';return}
+ todayTab.innerHTML=[...t.logs].reverse().map((x,i)=>`<div class="logrow"><div class="logtop"><span class="time">${fmtTime(x.time)}</span><span>+1</span></div><div class="meta"><span class="badge">${x.trigger}</span>${x.craving?`Craving ${x.craving}/10`:""} ${x.note?`• ${x.note}`:""}</div></div>`).join("")
+}
+function renderHistory(){
+ let rows=[];
+ for(let i=0;i<7;i++){const d=new Date();d.setDate(d.getDate()-i);const k=dayKey(d),x=data.days[k]; if(x)rows.push(`<div class="histrow"><span>${i===0?"Today":fmtDay(k)}</span><b>${x.count} puffs</b></div>`)}
+ historyTab.innerHTML=rows.length?rows.join(""):'<div class="note">History will appear here as you track.</div>'
+}
+function renderInsights(t){
+ const triggers={}; let peak={hour:null,count:0}, hours={};
+ Object.values(data.days).forEach(day=>(day.logs||[]).forEach(l=>{
+  triggers[l.trigger]=(triggers[l.trigger]||0)+1;
+  const h=new Date(l.time).getHours();hours[h]=(hours[h]||0)+1
+ }));
+ const topTrigger=Object.entries(triggers).sort((a,b)=>b[1]-a[1])[0];
+ Object.entries(hours).forEach(([h,c])=>{if(c>peak.count)peak={hour:Number(h),count:c}});
+ const y=lastDay(1); let trend="Keep tracking for a few days to see a useful trend.";
+ if(y){const d=t.count-y.count;trend=d<0?`You are ${Math.abs(d)} puffs below yesterday so far.`:d>0?`You are ${d} puffs above yesterday so far.`:"You are matching yesterday's count so far."}
+ insightsTab.innerHTML=
+  `<div class="insight"><b>Today's trend</b><span class="note">${trend}</span></div>`+
+  `<div class="insight"><b>Most common trigger</b><span class="note">${topTrigger?`${topTrigger[0]} (${topTrigger[1]} logged puffs)`:"Not enough data yet."}</span></div>`+
+  `<div class="insight"><b>Peak time</b><span class="note">${peak.hour!==null?`${String(peak.hour).padStart(2,"0")}:00–${String((peak.hour+1)%24).padStart(2,"0")}:00`:"Not enough data yet."}</span></div>`+
+  `<div class="insight"><b>Weekly reduction goal</b><span class="note">${data.reductionGoal}% reduction per week.</span></div>`
 }
 
-function save() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-}
+puffBtn.onclick=()=>{logModal.classList.add("show")};
+quickBtn.onclick=()=>addLog({trigger:"Quick",craving:0,note:""});
+undoBtn.onclick=undo;
+craving.oninput=()=>cravingValue.textContent=craving.value;
+cancelLog.onclick=()=>logModal.classList.remove("show");
+saveLog.onclick=()=>{addLog({trigger:trigger.value,craving:craving.value,note:note.value.trim()});note.value="";craving.value=5;cravingValue.textContent=5;logModal.classList.remove("show")};
 
-function rollover() {
-  const t = todayKey();
-  if (data.currentDate !== t) {
-    data.history[data.currentDate] = data.count || 0;
-    data.currentDate = t;
-    data.count = 0;
-    trimHistory();
-    save();
-  }
-}
+settingsBtn.onclick=()=>{targetInput.value=data.target;reductionInput.value=data.reductionGoal;settingsModal.classList.add("show")};
+cancelSettings.onclick=()=>settingsModal.classList.remove("show");
+saveSettings.onclick=()=>{const t=Number(targetInput.value),r=Number(reductionInput.value);if(t>0)data.target=Math.round(t);if(r>=0&&r<=50)data.reductionGoal=r;save();render();settingsModal.classList.remove("show")};
 
-function trimHistory() {
-  const keys = Object.keys(data.history).sort().reverse();
-  keys.slice(30).forEach(k => delete data.history[k]);
-}
-
-function addPuff() {
-  rollover();
-  data.count++;
-  save();
-  if (navigator.vibrate) navigator.vibrate(40);
-  render();
-}
-
-function undoPuff() {
-  rollover();
-  if (data.count > 0) data.count--;
-  save();
-  render();
-}
-
-function resetDay() {
-  if (confirm("Reset today's puff count to zero?")) {
-    data.count = 0;
-    save();
-    render();
-  }
-}
-
-function formatDate(d) {
-  const date = new Date(d + "T12:00:00");
-  return date.toLocaleDateString(undefined, {weekday:"short", month:"short", day:"numeric"});
-}
-
-function getLast7() {
-  const arr = [];
-  for (let i=0;i<7;i++) {
-    const d = new Date();
-    d.setHours(12,0,0,0);
-    d.setDate(d.getDate()-i);
-    const k = d.toISOString().slice(0,10);
-    arr.push({key:k, count:k === data.currentDate ? data.count : (data.history[k] ?? null)});
-  }
-  return arr;
-}
-
-function render() {
-  const pct = data.target > 0 ? Math.min(data.count / data.target, 1) : 0;
-  document.getElementById("count").textContent = data.count;
-  document.getElementById("targetText").textContent = data.target;
-  document.getElementById("remaining").textContent = Math.max(data.target-data.count,0);
-  document.getElementById("percent").textContent = Math.round((data.count/data.target)*100 || 0);
-  document.getElementById("ring").style.setProperty("--p", `${pct*360}deg`);
-
-  document.getElementById("todayLabel").textContent =
-    "TODAY • " + new Date().toLocaleDateString(undefined,{day:"numeric",month:"short",year:"numeric"});
-
-  const last7 = getLast7();
-  const numbers = last7.filter(x=>x.count!==null).map(x=>x.count);
-  const avg = numbers.length ? (numbers.reduce((a,b)=>a+b,0)/numbers.length).toFixed(1) : "0";
-  document.getElementById("average").textContent = avg;
-
-  const card = document.getElementById("historyCard");
-  const rows = last7.filter(x => x.count !== null);
-  if (!rows.length) {
-    card.innerHTML = '<div class="empty">No history yet.</div>';
-  } else {
-    card.innerHTML = rows.map(r =>
-      `<div class="history-row">
-        <div class="history-date">${r.key === data.currentDate ? "Today" : formatDate(r.key)}</div>
-        <div class="history-count">${r.count} puffs</div>
-      </div>`).join("");
-  }
-}
-
-document.getElementById("puffBtn").addEventListener("click", addPuff);
-document.getElementById("undoBtn").addEventListener("click", undoPuff);
-document.getElementById("resetBtn").addEventListener("click", resetDay);
-
-const modal = document.getElementById("settingsModal");
-document.getElementById("settingsBtn").addEventListener("click", () => {
-  document.getElementById("targetInput").value = data.target;
-  modal.classList.add("show");
+document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{
+ document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));b.classList.add("active");
+ todayTab.classList.toggle("hidden",b.dataset.tab!=="today");historyTab.classList.toggle("hidden",b.dataset.tab!=="history");insightsTab.classList.toggle("hidden",b.dataset.tab!=="insights");
 });
-document.getElementById("cancelSettings").addEventListener("click", () => modal.classList.remove("show"));
-document.getElementById("saveSettings").addEventListener("click", () => {
-  const v = Number(document.getElementById("targetInput").value);
-  if (Number.isFinite(v) && v > 0) data.target = Math.round(v);
-  save(); render(); modal.classList.remove("show");
-});
-
-window.addEventListener("focus", () => { rollover(); render(); });
+window.addEventListener("focus",()=>{rollover();render()});
 load();
-
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("service-worker.js").catch(()=>{});
-}
+if("serviceWorker"in navigator)navigator.serviceWorker.register("service-worker.js").catch(()=>{});
 </script>
 </body>
 </html>
