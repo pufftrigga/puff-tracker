@@ -4,7 +4,7 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#07151b"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-192.png">
-<title>Puff Tracker V3</title>
+<title>Puff Tracker V3.1</title>
 <style>
 :root{--bg:#061219;--panel:#0b1b23;--panel2:#102630;--text:#f6faf8;--muted:#82979e;--green:#22ef8b;--green2:#12c978;--red:#ff6464;--orange:#ffad43;--line:#17323d}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}body{margin:0;background:radial-gradient(circle at 50% -10%,#0d3440 0,#061219 38%,#040b10 100%);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding:calc(env(safe-area-inset-top) + 12px) 15px calc(env(safe-area-inset-bottom) + 88px);min-height:100vh}.app{max-width:560px;margin:auto}
@@ -36,7 +36,7 @@ header{display:flex;align-items:center;justify-content:space-between;margin:6px 
 
 <section id="goals" class="page"><div class="title">Goals & Reductions</div><div class="card goal"><h3>🎯 Daily Target</h3><div class="big"><span id="gTarget">40</span> puffs</div><div class="barwrap"><div class="bar" id="goalbar"></div></div><div class="meta" id="goalText"></div></div><div class="card goal"><h3>📉 Weekly Goal</h3><div>Reduce by <b id="gReduce">10</b>%</div><div class="insight" id="goalAdvice"></div></div><div class="section">RECENT DAYS</div><div class="card"><div class="calendar" id="calendar"></div></div></section>
 
-<section id="more" class="page"><div class="title">More</div><div class="card"><div class="listrow"><span>🎯 Daily Target</span><b id="mTarget">40</b></div><div class="listrow"><span>📉 Weekly Reduction</span><b id="mReduce">10%</b></div><div class="listrow"><span>💾 Export Data</span><button class="secondary" onclick="exportData()">Export</button></div><div class="listrow"><span>🗑 Reset Today's Data</span><button class="secondary danger" onclick="resetToday()">Reset</button></div></div><div class="section">ABOUT</div><div class="card"><div class="listrow"><span>Puff Tracker</span><b>V3</b></div><div class="meta">Your tracking information is stored locally on this device.</div></div></section>
+<section id="more" class="page"><div class="title">More</div><div class="card"><div class="listrow"><span>🎯 Daily Target</span><b id="mTarget">40</b></div><div class="listrow"><span>📉 Weekly Reduction</span><b id="mReduce">10%</b></div><div class="listrow"><span>💾 Export Data</span><button class="secondary" onclick="exportData()">Export</button></div><div class="listrow"><span>🗑 Reset Today's Data</span><button class="secondary danger" onclick="resetToday()">Reset</button></div></div><div class="section">ABOUT</div><div class="card"><div class="listrow"><span>Puff Tracker</span><b>V3.1</b></div><div class="meta">Your tracking information is stored locally on this device.</div></div></section>
 </div>
 
 <nav class="nav"><button class="active" onclick="showPage('home',this)"><span class="ico">⌂</span>Home</button><button onclick="showPage('history',this)"><span class="ico">◷</span>History</button><button onclick="showPage('stats',this)"><span class="ico">▥</span>Stats</button><button onclick="showPage('goals',this)"><span class="ico">♡</span>Goals</button><button onclick="showPage('more',this)"><span class="ico">•••</span>More</button></nav>
