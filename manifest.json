@@ -1,10 +1,10 @@
 {
-  "name": "Puff Tracker",
+  "name": "Puff Tracker V3",
   "short_name": "Puff Tracker",
   "start_url": "./",
   "display": "standalone",
-  "background_color": "#06130d",
-  "theme_color": "#07150f",
+  "background_color": "#061219",
+  "theme_color": "#07151b",
   "icons": [
     {
       "src": "icon-192.png",

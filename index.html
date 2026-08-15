@@ -1,219 +1,78 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Puff Tracker">
-<meta name="theme-color" content="#07150f">
-<link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="icon-192.png">
-<title>Puff Tracker</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#07151b"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-192.png">
+<title>Puff Tracker V3</title>
 <style>
-:root{
- --bg:#06130d;--card:#0c1c14;--card2:#10241a;--text:#f5f7f6;--muted:#9cad9f;
- --green:#72e89b;--green2:#47cc79;--red:#ff6e65;--line:rgba(255,255,255,.08)
-}
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{
- margin:0;min-height:100vh;color:var(--text);
- font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
- background:radial-gradient(circle at 50% -10%,rgba(75,214,126,.16),transparent 35%),linear-gradient(#07160f,#050d09);
- padding:calc(env(safe-area-inset-top) + 14px) 16px calc(env(safe-area-inset-bottom) + 30px)
-}
-.app{max-width:560px;margin:auto}
-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
-h1{margin:0;font-size:30px}.sub{color:var(--muted);font-size:13px;margin-top:4px}
-.iconbtn{border:0;background:rgba(255,255,255,.07);color:white;border-radius:14px;width:44px;height:44px;font-size:19px}
-.card{background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.05);border-radius:24px;padding:20px;box-shadow:0 14px 38px rgba(0,0,0,.18)}
-.hero{text-align:center;padding:24px 12px}
-.count{font-size:72px;font-weight:850;line-height:.9}.unit{font-size:15px;font-weight:800;letter-spacing:.6px;margin-top:10px}
-.progressbar{height:10px;background:rgba(255,255,255,.08);border-radius:10px;overflow:hidden;margin:18px 0 8px}
-.progressbar>div{height:100%;background:linear-gradient(90deg,var(--green2),var(--green));width:0}
-.row{display:flex;justify-content:space-between;gap:10px;color:var(--muted);font-size:13px}
-.green{color:var(--green);font-weight:800}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:11px;margin:12px 0}
-.stat{background:rgba(255,255,255,.055);border-radius:18px;padding:15px}
-.stat .label{color:var(--muted);font-size:12px}.stat .value{font-size:23px;font-weight:850;margin-top:5px}
-.puff{width:100%;height:115px;border:0;border-radius:30px;background:linear-gradient(135deg,#8cf0ad,#4ed47f);color:#062313;font-weight:900;font-size:29px;margin:7px 0 12px;box-shadow:0 18px 38px rgba(55,208,109,.20)}
-.puff small{display:block;font-size:12px;font-weight:650;margin-top:6px;opacity:.75}
-.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.actions button{border:0;border-radius:16px;padding:15px;background:rgba(255,255,255,.08);color:white;font-weight:750}.actions .danger{color:var(--red)}
-.section{font-size:17px;font-weight:850;margin:24px 2px 11px}
-.tabs{display:flex;gap:8px;overflow:auto;margin-bottom:12px}
-.tab{white-space:nowrap;border:0;background:rgba(255,255,255,.07);color:var(--muted);padding:10px 14px;border-radius:14px;font-weight:700}
-.tab.active{background:rgba(114,232,155,.16);color:var(--green)}
-.hidden{display:none!important}
-.logrow,.histrow{padding:13px 0;border-bottom:1px solid var(--line)}
-.logrow:last-child,.histrow:last-child{border-bottom:0}
-.logtop,.histrow{display:flex;justify-content:space-between;gap:12px}.time{font-weight:800}.meta{color:var(--muted);font-size:12px;margin-top:5px}
-.badge{display:inline-block;padding:4px 8px;border-radius:10px;background:rgba(114,232,155,.10);color:var(--green);font-size:11px;margin-right:5px}
-.insight{padding:14px;border-radius:18px;background:rgba(255,255,255,.045);margin-top:10px}.insight b{display:block;margin-bottom:5px}
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.62);display:none;align-items:flex-end;justify-content:center;padding:16px;z-index:10}.modal.show{display:flex}
-.sheet{width:min(560px,100%);background:#0c1b14;border:1px solid var(--line);border-radius:26px;padding:20px;max-height:88vh;overflow:auto}
-.sheet h2{margin:0 0 15px}.field{margin:14px 0}.field label{display:block;color:var(--muted);font-size:12px;margin-bottom:7px}
-input,select{width:100%;padding:14px;border-radius:14px;border:1px solid var(--line);background:#07130e;color:white;font-size:16px}
-.rangeLabels{display:flex;justify-content:space-between;color:var(--muted);font-size:11px}
-.sheetActions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}.sheetActions button{border:0;border-radius:14px;padding:14px;font-weight:850}.save{background:var(--green);color:#052111}.cancel{background:rgba(255,255,255,.08);color:white}
-.note{font-size:12px;color:var(--muted);line-height:1.45}
-</style>
-</head>
-<body>
-<div class="app">
-<header>
- <div><h1>Puff Tracker</h1><div class="sub">Track the habit. Reduce it gradually.</div></div>
- <button class="iconbtn" id="settingsBtn">⚙︎</button>
-</header>
+:root{--bg:#061219;--panel:#0b1b23;--panel2:#102630;--text:#f6faf8;--muted:#82979e;--green:#22ef8b;--green2:#12c978;--red:#ff6464;--orange:#ffad43;--line:#17323d}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}body{margin:0;background:radial-gradient(circle at 50% -10%,#0d3440 0,#061219 38%,#040b10 100%);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding:calc(env(safe-area-inset-top) + 12px) 15px calc(env(safe-area-inset-bottom) + 88px);min-height:100vh}.app{max-width:560px;margin:auto}
+header{display:flex;align-items:center;justify-content:space-between;margin:6px 2px 18px}.brand{font-size:24px;font-weight:850}.brand span{color:var(--green)}button{font:inherit}
+.icon{border:0;background:var(--panel);color:var(--green);width:43px;height:43px;border-radius:14px;font-size:19px}
+.card{background:linear-gradient(145deg,rgba(16,39,49,.96),rgba(8,25,33,.96));border:1px solid rgba(255,255,255,.045);border-radius:22px;padding:18px;box-shadow:0 16px 38px rgba(0,0,0,.2)}
+.date{text-align:center;color:#b8c7cb;font-size:13px;margin-bottom:12px}.ring{--deg:0deg;width:220px;height:220px;margin:auto;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--green) var(--deg),#173840 0);position:relative;box-shadow:0 0 35px rgba(34,239,139,.08)}.ring:after{content:"";position:absolute;inset:13px;background:#081920;border-radius:50%}.ringin{z-index:1;text-align:center}.ringin small{color:#b8c6c9}.count{font-size:66px;font-weight:900;line-height:1}.puffs{font-size:14px;font-weight:800;color:#cde2db}.target{font-size:13px;color:#9fb0b5;margin-top:7px}.remain{text-align:center;color:var(--green);font-weight:800;margin:14px 0 2px}
+.mainbtn{width:100%;border:0;border-radius:22px;padding:20px;background:linear-gradient(135deg,#2bf497,#13d87f);color:#042015;font-size:24px;font-weight:900;margin:14px 0 10px;box-shadow:0 12px 30px rgba(34,239,139,.16)}
+.twobtn{display:grid;grid-template-columns:1fr 1fr;gap:10px}.secondary{border:1px solid var(--line);background:var(--panel);color:white;padding:14px;border-radius:17px;font-weight:750}.section{font-size:15px;font-weight:850;color:#d8e5e1;margin:22px 2px 10px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.stat{background:var(--panel);border:1px solid rgba(255,255,255,.04);border-radius:17px;padding:14px 9px;text-align:center}.stat small{display:block;color:var(--muted);font-size:10px;min-height:25px}.stat b{font-size:20px}.good{color:var(--green)}
+.listrow{display:flex;justify-content:space-between;gap:10px;padding:13px 0;border-bottom:1px solid var(--line)}.listrow:last-child{border-bottom:0}.meta{font-size:11px;color:var(--muted);margin-top:4px}.badge{font-size:11px;padding:4px 8px;border-radius:9px;background:#123429;color:var(--green)}
+.nav{position:fixed;left:50%;transform:translateX(-50%);bottom:0;width:min(590px,100%);display:grid;grid-template-columns:repeat(5,1fr);background:rgba(5,15,20,.96);border-top:1px solid var(--line);padding:9px 5px calc(env(safe-area-inset-bottom) + 8px);backdrop-filter:blur(18px);z-index:8}.nav button{border:0;background:none;color:#73868c;font-size:10px}.nav .ico{font-size:20px;display:block;margin-bottom:3px}.nav button.active{color:var(--green)}
+.page{display:none}.page.active{display:block}.title{font-size:27px;font-weight:900;margin:7px 2px 17px}
+.barwrap{height:9px;border-radius:10px;background:#17323b;overflow:hidden;margin:10px 0}.bar{height:100%;background:var(--green)}
+.chart{height:150px;display:flex;align-items:end;gap:9px;padding-top:15px}.col{flex:1;text-align:center;color:var(--muted);font-size:9px}.col i{display:block;background:#31515c;border-radius:7px 7px 3px 3px;min-height:4px;margin-bottom:6px}.col.today i{background:var(--green)}
+.goal{margin-bottom:12px}.goal h3{margin:0 0 5px}.big{font-size:28px;font-weight:900}.insight{margin-top:10px;padding:14px;background:#0d2630;border-radius:16px;color:#c9d7d8;font-size:13px;line-height:1.45}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;align-items:flex-end;justify-content:center;padding:15px;z-index:20}.modal.show{display:flex}.sheet{width:min(560px,100%);max-height:88vh;overflow:auto;background:#091a22;border:1px solid var(--line);border-radius:27px;padding:20px}.sheet h2{margin:0 0 16px}.field{margin:14px 0}.field label{display:block;color:#9db0b5;font-size:12px;margin-bottom:7px}input,select,textarea{width:100%;background:#061219;color:white;border:1px solid #21404b;border-radius:14px;padding:14px;font-size:16px}textarea{min-height:85px}.chips{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.chip{border:1px solid #24434d;background:#0d242d;color:#c9d6d8;padding:12px 5px;border-radius:14px;font-size:12px}.chip.sel{border-color:var(--green);color:var(--green);background:#103529}.sheetactions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:16px}.sheetactions button{border:0;border-radius:14px;padding:14px;font-weight:850}.save{background:var(--green);color:#052117}.cancel{background:#142a33;color:white}.danger{color:var(--red)}
+.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:7px;text-align:center}.calday{padding:9px 2px;border-radius:50%;font-size:12px}.under{background:#123e2c;color:var(--green)}.over{background:#422125;color:#ff7777}.neutral{background:#26343a}
+</style></head>
+<body><div class="app">
+<section id="home" class="page active"><header><div class="brand">☁ <span>Puff</span> Tracker</div><button class="icon" onclick="openSettings()">⚙</button></header>
+<div class="date" id="dateLabel"></div><div class="card"><div class="ring" id="ring"><div class="ringin"><small>Today</small><div class="count" id="count">0</div><div class="puffs">PUFFS</div><div class="target">Target: <span id="target">40</span> / day</div></div></div><div class="remain" id="remaining"></div></div>
+<button class="mainbtn" onclick="openLog()">＋ 1 PUFF</button><div class="twobtn"><button class="secondary" onclick="quick()">⚡ Quick +1</button><button class="secondary" onclick="undo()">↶ Undo</button></div>
+<div class="section">TODAY'S OVERVIEW</div><div class="stats"><div class="stat"><small>Yesterday</small><b id="yesterday">—</b></div><div class="stat"><small>7-Day Avg</small><b id="avg">0</b></div><div class="stat"><small>Longest Gap</small><b id="gap">—</b></div></div>
+</section>
 
-<div class="card hero">
- <div class="count" id="count">0</div>
- <div class="unit">PUFFS TODAY</div>
- <div class="progressbar"><div id="bar"></div></div>
- <div class="row"><span>Target: <b id="targetText">40</b></span><span class="green"><span id="remaining">40</span> remaining</span></div>
+<section id="history" class="page"><div class="title">History</div><div class="card"><div class="stats"><div class="stat"><small>Today</small><b id="hToday">0</b></div><div class="stat"><small>Avg Craving</small><b id="hCrave">—</b></div><div class="stat"><small>First Puff</small><b id="hFirst">—</b></div></div><div id="logList" style="margin-top:12px"></div></div></section>
+
+<section id="stats" class="page"><div class="title">Stats</div><div class="card"><small style="color:var(--green);font-weight:800">LAST 7 DAYS</small><div class="chart" id="chart"></div><div class="stats" style="margin-top:15px"><div class="stat"><small>Total</small><b id="weekTotal">0</b></div><div class="stat"><small>Daily Avg</small><b id="weekAvg">0</b></div><div class="stat"><small>vs Previous</small><b class="good" id="weekChange">—</b></div></div></div><div class="section">INSIGHTS</div><div class="card" id="insights"></div></section>
+
+<section id="goals" class="page"><div class="title">Goals & Reductions</div><div class="card goal"><h3>🎯 Daily Target</h3><div class="big"><span id="gTarget">40</span> puffs</div><div class="barwrap"><div class="bar" id="goalbar"></div></div><div class="meta" id="goalText"></div></div><div class="card goal"><h3>📉 Weekly Goal</h3><div>Reduce by <b id="gReduce">10</b>%</div><div class="insight" id="goalAdvice"></div></div><div class="section">RECENT DAYS</div><div class="card"><div class="calendar" id="calendar"></div></div></section>
+
+<section id="more" class="page"><div class="title">More</div><div class="card"><div class="listrow"><span>🎯 Daily Target</span><b id="mTarget">40</b></div><div class="listrow"><span>📉 Weekly Reduction</span><b id="mReduce">10%</b></div><div class="listrow"><span>💾 Export Data</span><button class="secondary" onclick="exportData()">Export</button></div><div class="listrow"><span>🗑 Reset Today's Data</span><button class="secondary danger" onclick="resetToday()">Reset</button></div></div><div class="section">ABOUT</div><div class="card"><div class="listrow"><span>Puff Tracker</span><b>V3</b></div><div class="meta">Your tracking information is stored locally on this device.</div></div></section>
 </div>
 
-<div class="grid">
- <div class="stat"><div class="label">7-Day Average</div><div class="value" id="avg7">0</div></div>
- <div class="stat"><div class="label">Vs Yesterday</div><div class="value" id="vsYesterday">—</div></div>
- <div class="stat"><div class="label">First Puff</div><div class="value" id="firstPuff">—</div></div>
- <div class="stat"><div class="label">Avg Craving</div><div class="value" id="avgCraving">—</div></div>
-</div>
+<nav class="nav"><button class="active" onclick="showPage('home',this)"><span class="ico">⌂</span>Home</button><button onclick="showPage('history',this)"><span class="ico">◷</span>History</button><button onclick="showPage('stats',this)"><span class="ico">▥</span>Stats</button><button onclick="showPage('goals',this)"><span class="ico">♡</span>Goals</button><button onclick="showPage('more',this)"><span class="ico">•••</span>More</button></nav>
 
-<button class="puff" id="puffBtn">+ 1 PUFF<small>Tap to log details</small></button>
-<div class="actions">
- <button id="quickBtn">Quick +1</button>
- <button class="danger" id="undoBtn">Undo</button>
-</div>
-
-<div class="section">Tracking</div>
-<div class="tabs">
- <button class="tab active" data-tab="today">Today Log</button>
- <button class="tab" data-tab="history">7-Day History</button>
- <button class="tab" data-tab="insights">Insights</button>
-</div>
-
-<div id="todayTab" class="card"></div>
-<div id="historyTab" class="card hidden"></div>
-<div id="insightsTab" class="card hidden"></div>
-</div>
-
-<div class="modal" id="logModal">
-<div class="sheet">
- <h2>Log Puff</h2>
- <div class="field">
-  <label>Trigger</label>
-  <select id="trigger">
-   <option>Habit / automatic</option><option>Stress</option><option>Boredom</option>
-   <option>After meal</option><option>Driving</option><option>Work break</option>
-   <option>Coffee</option><option>Social</option><option>Gaming / phone</option><option>Other</option>
-  </select>
- </div>
- <div class="field">
-  <label>Craving level: <b id="cravingValue">5</b>/10</label>
-  <input type="range" min="1" max="10" value="5" id="craving">
-  <div class="rangeLabels"><span>Low</span><span>High</span></div>
- </div>
- <div class="field">
-  <label>Situation / note (optional)</label>
-  <input id="note" placeholder="e.g. after lunch">
- </div>
- <div class="sheetActions"><button class="cancel" id="cancelLog">Cancel</button><button class="save" id="saveLog">Save +1</button></div>
- </div>
-</div>
-
-<div class="modal" id="settingsModal">
-<div class="sheet">
- <h2>Settings</h2>
- <div class="field"><label>Daily puff target</label><input type="number" min="1" id="targetInput"></div>
- <div class="field"><label>Weekly reduction goal (%)</label><input type="number" min="0" max="50" id="reductionInput"></div>
- <div class="note">A gradual target is easier to follow than a sudden large cut. Use the first few days to learn your normal pattern.</div>
- <div class="sheetActions"><button class="cancel" id="cancelSettings">Cancel</button><button class="save" id="saveSettings">Save</button></div>
- </div>
-</div>
+<div class="modal" id="logModal"><div class="sheet"><h2>Record Puff</h2><div class="field"><label>Trigger — why now?</label><div class="chips" id="chips"></div></div><div class="field"><label>Craving level: <b id="craveVal">5</b>/10</label><input type="range" min="1" max="10" value="5" id="crave" oninput="craveVal.textContent=this.value"></div><div class="field"><label>Note (optional)</label><textarea id="note" placeholder="e.g. after lunch, stressful meeting..."></textarea></div><div class="sheetactions"><button class="cancel" onclick="closeLog()">Cancel</button><button class="save" onclick="savePuff()">✓ Save Puff</button></div></div></div>
+<div class="modal" id="settingsModal"><div class="sheet"><h2>Settings</h2><div class="field"><label>Daily Target</label><input type="number" id="targetInput" min="1"></div><div class="field"><label>Weekly Reduction Goal (%)</label><input type="number" id="reduceInput" min="0" max="50"></div><div class="sheetactions"><button class="cancel" onclick="settingsModal.classList.remove('show')">Cancel</button><button class="save" onclick="saveSettings()">Save</button></div></div></div>
 
 <script>
-const KEY="puffTrackerV2";
-const dayKey=(d=new Date())=>{const x=new Date(d); x.setMinutes(x.getMinutes()-x.getTimezoneOffset()); return x.toISOString().slice(0,10)};
-let data={date:dayKey(),target:40,reductionGoal:10,days:{}};
-
-function todayObj(){
- const k=dayKey();
- if(!data.days[k]) data.days[k]={count:0,logs:[]};
- return data.days[k];
-}
-function load(){try{const s=JSON.parse(localStorage.getItem(KEY));if(s)data={...data,...s}}catch{} rollover(); render()}
-function save(){localStorage.setItem(KEY,JSON.stringify(data))}
-function rollover(){const k=dayKey(); if(data.date!==k)data.date=k; todayObj(); save()}
-function addLog(details){
- const t=todayObj(); t.count++;
- t.logs.push({time:new Date().toISOString(),trigger:details.trigger||"Quick",craving:Number(details.craving||0),note:details.note||""});
- save(); render(); if(navigator.vibrate)navigator.vibrate(35);
-}
-function undo(){
- const t=todayObj(); if(t.count<=0)return;
- t.count--; if(t.logs.length)t.logs.pop(); save(); render()
-}
-function lastDay(offset){
- const d=new Date(); d.setDate(d.getDate()-offset); return data.days[dayKey(d)]||null
-}
-function fmtTime(iso){return new Date(iso).toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"})}
-function fmtDay(k){return new Date(k+"T12:00:00").toLocaleDateString([], {weekday:"short",month:"short",day:"numeric"})}
-
+const KEY="puffTrackerV3",OLD="puffTrackerV2"; const triggers=["Stress","Boredom","After Meal","Driving","Work Break","Coffee / Tea","Gaming","Social","Other"]; let selected="Habit";
+function dk(d=new Date()){let x=new Date(d);x.setMinutes(x.getMinutes()-x.getTimezoneOffset());return x.toISOString().slice(0,10)}
+let data={target:40,reduce:10,days:{}};
+function load(){try{let s=JSON.parse(localStorage.getItem(KEY));if(s)data={...data,...s};else{let o=JSON.parse(localStorage.getItem(OLD));if(o){data.target=o.target||40;data.reduce=o.reductionGoal||10;data.days=o.days||{};save()}}}catch{} day();render()}
+function day(k=dk()){if(!data.days[k])data.days[k]={count:0,logs:[]};return data.days[k]} function save(){localStorage.setItem(KEY,JSON.stringify(data))}
+function quick(){let t=day();t.count++;t.logs.push({time:new Date().toISOString(),trigger:"Quick",craving:0,note:""});save();render();if(navigator.vibrate)navigator.vibrate(35)}
+function undo(){let t=day();if(t.count){t.count--;t.logs.pop();save();render()}}
+function openLog(){selected="Habit";chips.innerHTML=triggers.map(x=>`<button class="chip" onclick="selectTrigger(this,'${x}')">${x}</button>`).join("");logModal.classList.add("show")}
+function selectTrigger(el,x){selected=x;document.querySelectorAll(".chip").forEach(c=>c.classList.remove("sel"));el.classList.add("sel")}
+function closeLog(){logModal.classList.remove("show")}
+function savePuff(){let t=day();t.count++;t.logs.push({time:new Date().toISOString(),trigger:selected,craving:+crave.value,note:note.value.trim()});note.value="";crave.value=5;craveVal.textContent=5;save();closeLog();render()}
+function past(n){let d=new Date();d.setDate(d.getDate()-n);return {k:dk(d),d,x:data.days[dk(d)]}}
+function time(iso){return new Date(iso).toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"})}
+function longestGap(logs){if(logs.length<2)return"—";let a=[...logs].sort((x,y)=>new Date(x.time)-new Date(y.time)),m=0;for(let i=1;i<a.length;i++)m=Math.max(m,new Date(a[i].time)-new Date(a[i-1].time));let mins=Math.floor(m/60000);return mins>=60?`${Math.floor(mins/60)}h ${mins%60}m`:`${mins}m`}
 function render(){
- const t=todayObj(), pct=Math.min((t.count/data.target)*100,100);
- count.textContent=t.count; targetText.textContent=data.target; remaining.textContent=Math.max(data.target-t.count,0); bar.style.width=pct+"%";
- const vals=[]; for(let i=0;i<7;i++){const x=lastDay(i);if(x)vals.push(x.count)}
- avg7.textContent=vals.length?(vals.reduce((a,b)=>a+b,0)/vals.length).toFixed(1):"0";
- const y=lastDay(1);
- if(y){const diff=t.count-y.count; vsYesterday.textContent=(diff>0?"+":"")+diff; vsYesterday.style.color=diff<=0?"var(--green)":"var(--red)"} else vsYesterday.textContent="—";
- if(t.logs.length){firstPuff.textContent=fmtTime(t.logs[0].time);const cs=t.logs.map(x=>x.craving).filter(x=>x>0);avgCraving.textContent=cs.length?(cs.reduce((a,b)=>a+b,0)/cs.length).toFixed(1):"—"} else {firstPuff.textContent="—";avgCraving.textContent="—"}
- renderToday(t); renderHistory(); renderInsights(t)
+ let t=day(),pct=Math.min(t.count/data.target,1);dateLabel.textContent=new Date().toLocaleDateString([],{weekday:"short",day:"numeric",month:"short",year:"numeric"});count.textContent=t.count;target.textContent=data.target;remaining.textContent=`${Math.max(data.target-t.count,0)} remaining • ${Math.round(pct*100)}% of daily target`;ring.style.setProperty("--deg",pct*360+"deg");
+ let y=past(1).x;yesterday.textContent=y?y.count:"—";let vals=[];for(let i=0;i<7;i++){let x=past(i).x;if(x)vals.push(x.count)}avg.textContent=vals.length?(vals.reduce((a,b)=>a+b,0)/vals.length).toFixed(1):"0";gap.textContent=longestGap(t.logs||[]);
+ hToday.textContent=t.count;let cs=(t.logs||[]).map(x=>x.craving).filter(Boolean);hCrave.textContent=cs.length?(cs.reduce((a,b)=>a+b,0)/cs.length).toFixed(1):"—";hFirst.textContent=t.logs?.length?time(t.logs[0].time):"—";
+ logList.innerHTML=t.logs?.length?[...t.logs].reverse().map(x=>`<div class="listrow"><div><b>${time(x.time)} · ${x.trigger}</b><div class="meta">${x.note||"No note"}</div></div><span class="badge">${x.craving?x.craving+"/10":"Quick"}</span></div>`).join(""):'<div class="meta">No puffs logged today.</div>';
+ let seven=[];for(let i=6;i>=0;i--){let p=past(i);seven.push({label:p.d.toLocaleDateString([],{weekday:"short"}),count:p.x?.count||0,today:i===0})}let max=Math.max(1,...seven.map(x=>x.count));chart.innerHTML=seven.map(x=>`<div class="col ${x.today?"today":""}"><b>${x.count}</b><i style="height:${Math.max(4,x.count/max*100)}px"></i>${x.label}</div>`).join("");let total=seven.reduce((a,b)=>a+b.count,0);weekTotal.textContent=total;weekAvg.textContent=(total/7).toFixed(1);
+ let trig={};Object.values(data.days).forEach(d=>(d.logs||[]).forEach(l=>trig[l.trigger]=(trig[l.trigger]||0)+1));let top=Object.entries(trig).sort((a,b)=>b[1]-a[1])[0];insights.innerHTML=`<div class="insight"><b>Most common trigger</b><br>${top?top[0]+" · "+top[1]+" puffs":"Keep tracking to identify it."}</div><div class="insight"><b>Today's pattern</b><br>${t.count<=data.target?"You're currently within your daily target.":"You've passed today's target. Use the log to identify the strongest trigger."}</div>`;
+ gTarget.textContent=mTarget.textContent=data.target;gReduce.textContent=data.reduce;mReduce.textContent=data.reduce+"%";goalbar.style.width=Math.min(100,pct*100)+"%";goalText.textContent=`${t.count} / ${data.target} puffs · ${Math.max(0,data.target-t.count)} remaining`;goalAdvice.textContent=`Your current goal is to reduce your average by ${data.reduce}% each week. Adjust this gradually based on your actual usage.`;
+ let cal=[];for(let i=20;i>=0;i--){let p=past(i),c=p.x?.count;if(c==null)cal.push(`<div class="calday neutral">·</div>`);else cal.push(`<div class="calday ${c<=data.target?"under":"over"}">${p.d.getDate()}</div>`)}calendar.innerHTML=cal.join("");
 }
-function renderToday(t){
- if(!t.logs.length){todayTab.innerHTML='<div class="note">No puffs logged yet today.</div>';return}
- todayTab.innerHTML=[...t.logs].reverse().map((x,i)=>`<div class="logrow"><div class="logtop"><span class="time">${fmtTime(x.time)}</span><span>+1</span></div><div class="meta"><span class="badge">${x.trigger}</span>${x.craving?`Craving ${x.craving}/10`:""} ${x.note?`• ${x.note}`:""}</div></div>`).join("")
-}
-function renderHistory(){
- let rows=[];
- for(let i=0;i<7;i++){const d=new Date();d.setDate(d.getDate()-i);const k=dayKey(d),x=data.days[k]; if(x)rows.push(`<div class="histrow"><span>${i===0?"Today":fmtDay(k)}</span><b>${x.count} puffs</b></div>`)}
- historyTab.innerHTML=rows.length?rows.join(""):'<div class="note">History will appear here as you track.</div>'
-}
-function renderInsights(t){
- const triggers={}; let peak={hour:null,count:0}, hours={};
- Object.values(data.days).forEach(day=>(day.logs||[]).forEach(l=>{
-  triggers[l.trigger]=(triggers[l.trigger]||0)+1;
-  const h=new Date(l.time).getHours();hours[h]=(hours[h]||0)+1
- }));
- const topTrigger=Object.entries(triggers).sort((a,b)=>b[1]-a[1])[0];
- Object.entries(hours).forEach(([h,c])=>{if(c>peak.count)peak={hour:Number(h),count:c}});
- const y=lastDay(1); let trend="Keep tracking for a few days to see a useful trend.";
- if(y){const d=t.count-y.count;trend=d<0?`You are ${Math.abs(d)} puffs below yesterday so far.`:d>0?`You are ${d} puffs above yesterday so far.`:"You are matching yesterday's count so far."}
- insightsTab.innerHTML=
-  `<div class="insight"><b>Today's trend</b><span class="note">${trend}</span></div>`+
-  `<div class="insight"><b>Most common trigger</b><span class="note">${topTrigger?`${topTrigger[0]} (${topTrigger[1]} logged puffs)`:"Not enough data yet."}</span></div>`+
-  `<div class="insight"><b>Peak time</b><span class="note">${peak.hour!==null?`${String(peak.hour).padStart(2,"0")}:00–${String((peak.hour+1)%24).padStart(2,"0")}:00`:"Not enough data yet."}</span></div>`+
-  `<div class="insight"><b>Weekly reduction goal</b><span class="note">${data.reductionGoal}% reduction per week.</span></div>`
-}
-
-puffBtn.onclick=()=>{logModal.classList.add("show")};
-quickBtn.onclick=()=>addLog({trigger:"Quick",craving:0,note:""});
-undoBtn.onclick=undo;
-craving.oninput=()=>cravingValue.textContent=craving.value;
-cancelLog.onclick=()=>logModal.classList.remove("show");
-saveLog.onclick=()=>{addLog({trigger:trigger.value,craving:craving.value,note:note.value.trim()});note.value="";craving.value=5;cravingValue.textContent=5;logModal.classList.remove("show")};
-
-settingsBtn.onclick=()=>{targetInput.value=data.target;reductionInput.value=data.reductionGoal;settingsModal.classList.add("show")};
-cancelSettings.onclick=()=>settingsModal.classList.remove("show");
-saveSettings.onclick=()=>{const t=Number(targetInput.value),r=Number(reductionInput.value);if(t>0)data.target=Math.round(t);if(r>=0&&r<=50)data.reductionGoal=r;save();render();settingsModal.classList.remove("show")};
-
-document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{
- document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));b.classList.add("active");
- todayTab.classList.toggle("hidden",b.dataset.tab!=="today");historyTab.classList.toggle("hidden",b.dataset.tab!=="history");insightsTab.classList.toggle("hidden",b.dataset.tab!=="insights");
-});
-window.addEventListener("focus",()=>{rollover();render()});
-load();
-if("serviceWorker"in navigator)navigator.serviceWorker.register("service-worker.js").catch(()=>{});
-</script>
-</body>
-</html>
+function showPage(id,b){document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));document.getElementById(id).classList.add("active");document.querySelectorAll(".nav button").forEach(x=>x.classList.remove("active"));b.classList.add("active");render()}
+function openSettings(){targetInput.value=data.target;reduceInput.value=data.reduce;settingsModal.classList.add("show")}
+function saveSettings(){if(+targetInput.value>0)data.target=Math.round(+targetInput.value);if(+reduceInput.value>=0&&+reduceInput.value<=50)data.reduce=+reduceInput.value;save();settingsModal.classList.remove("show");render()}
+function resetToday(){if(confirm("Reset today's tracking data?")){data.days[dk()]={count:0,logs:[]};save();render()}}
+function exportData(){let blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="puff-tracker-backup.json";a.click();URL.revokeObjectURL(a.href)}
+load();if("serviceWorker"in navigator)navigator.serviceWorker.register("service-worker.js").catch(()=>{});
+</script></body></html>

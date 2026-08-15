@@ -1,27 +1,35 @@
-Puff Tracker v2
+PUFF TRACKER V3
 
-NEW:
-- +1 puff with optional details
-- Trigger tracking
-- Craving level 1-10
-- Optional notes
-- Timestamp for each puff
-- First puff time
-- 7-day average
-- Comparison with yesterday
-- 7-day history
-- Most common trigger
-- Peak vaping hour
-- Weekly reduction goal
-- Quick +1 and Undo
+This version follows the second mockup design more closely.
 
-UPDATE YOUR EXISTING GITHUB PAGES APP:
+Features:
+- Home dashboard with circular daily progress
+- Detailed +1 puff logging
+- Quick +1
+- Undo
+- Trigger, craving and notes
+- History screen
+- 7-day stats chart
+- Trigger insights
+- Daily and weekly reduction goals
+- Recent-day target calendar
+- Longest gap between logged puffs
+- Export JSON backup
+- Imports V2 local data automatically when possible
+
+UPDATE GITHUB:
 1. Extract this ZIP.
-2. Open your puff-tracker repository on GitHub.
-3. Upload and replace index.html, manifest.json, service-worker.js, icon-192.png, icon-512.png.
-4. Commit changes.
-5. Wait for GitHub Pages to redeploy.
-6. On iPhone, close Puff Tracker completely and reopen it.
-7. If the old version remains, open the GitHub Pages URL in Safari and refresh once.
+2. Open your existing puff-tracker GitHub repository.
+3. Add file > Upload files.
+4. Upload all 5 app files and replace the old versions:
+   index.html
+   manifest.json
+   service-worker.js
+   icon-192.png
+   icon-512.png
+5. Commit changes.
+6. Wait 1-2 minutes.
+7. Open the GitHub Pages URL in Safari and refresh.
+8. Close and reopen the Home Screen Puff Tracker.
 
-Your tracking data stays in the iPhone browser/local storage.
+If iPhone still caches the old version, remove the Home Screen icon, open the GitHub Pages URL in Safari, refresh it, and Add to Home Screen again.
