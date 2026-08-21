@@ -1,15 +1,23 @@
-PUFF TRACKER V4.1 EASY TAP
+PUFF TRACKER V4.2
 
-Improvements:
-- Huge tap zone for +1
+Restores:
+- History
+- Today log
+- 7-day history
+- Stats
+- Goals
+
+Keeps:
+- Huge easy-tap +1 button
 - Double-tap zoom disabled
-- Pinch/gesture zoom blocked in the installed app
-- Rapid tapping supported
-- Immediate feedback
-- Undo Last
-- Keeps the same local storage key as V3/V4
+- Rapid tapping
+- Undo
+- iPhone quick.html shortcut
+- Same local storage key: puffTrackerV3
 
-Upload these files to your existing GitHub repository:
+Your previous history should reappear automatically if Safari/local site data was not cleared.
+
+Upload/replace:
 index.html
 quick.html
 manifest.json
