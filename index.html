@@ -1,78 +1,61 @@
 <!doctype html>
-<html lang="en">
+<html>
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="theme-color" content="#07151b"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-192.png">
-<title>Puff Tracker V3.1</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#061219">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>Puff Tracker V4.1</title>
 <style>
-:root{--bg:#061219;--panel:#0b1b23;--panel2:#102630;--text:#f6faf8;--muted:#82979e;--green:#22ef8b;--green2:#12c978;--red:#ff6464;--orange:#ffad43;--line:#17323d}
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}body{margin:0;background:radial-gradient(circle at 50% -10%,#0d3440 0,#061219 38%,#040b10 100%);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding:calc(env(safe-area-inset-top) + 12px) 15px calc(env(safe-area-inset-bottom) + 88px);min-height:100vh}.app{max-width:560px;margin:auto}
-header{display:flex;align-items:center;justify-content:space-between;margin:6px 2px 18px}.brand{font-size:24px;font-weight:850}.brand span{color:var(--green)}button{font:inherit}
-.icon{border:0;background:var(--panel);color:var(--green);width:43px;height:43px;border-radius:14px;font-size:19px}
-.card{background:linear-gradient(145deg,rgba(16,39,49,.96),rgba(8,25,33,.96));border:1px solid rgba(255,255,255,.045);border-radius:22px;padding:18px;box-shadow:0 16px 38px rgba(0,0,0,.2)}
-.date{text-align:center;color:#b8c7cb;font-size:13px;margin-bottom:12px}.ring{--deg:0deg;width:220px;height:220px;margin:auto;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--green) var(--deg),#173840 0);position:relative;box-shadow:0 0 35px rgba(34,239,139,.08)}.ring:after{content:"";position:absolute;inset:13px;background:#081920;border-radius:50%}.ringin{z-index:1;text-align:center}.ringin small{color:#b8c6c9}.count{font-size:66px;font-weight:900;line-height:1}.puffs{font-size:14px;font-weight:800;color:#cde2db}.target{font-size:13px;color:#9fb0b5;margin-top:7px}.remain{text-align:center;color:var(--green);font-weight:800;margin:14px 0 2px}
-.mainbtn{width:100%;border:0;border-radius:22px;padding:20px;background:linear-gradient(135deg,#2bf497,#13d87f);color:#042015;font-size:24px;font-weight:900;margin:14px 0 10px;box-shadow:0 12px 30px rgba(34,239,139,.16)}
-.twobtn{display:grid;grid-template-columns:1fr 1fr;gap:10px}.secondary{border:1px solid var(--line);background:var(--panel);color:white;padding:14px;border-radius:17px;font-weight:750}.section{font-size:15px;font-weight:850;color:#d8e5e1;margin:22px 2px 10px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.stat{background:var(--panel);border:1px solid rgba(255,255,255,.04);border-radius:17px;padding:14px 9px;text-align:center}.stat small{display:block;color:var(--muted);font-size:10px;min-height:25px}.stat b{font-size:20px}.good{color:var(--green)}
-.listrow{display:flex;justify-content:space-between;gap:10px;padding:13px 0;border-bottom:1px solid var(--line)}.listrow:last-child{border-bottom:0}.meta{font-size:11px;color:var(--muted);margin-top:4px}.badge{font-size:11px;padding:4px 8px;border-radius:9px;background:#123429;color:var(--green)}
-.nav{position:fixed;left:50%;transform:translateX(-50%);bottom:0;width:min(590px,100%);display:grid;grid-template-columns:repeat(5,1fr);background:rgba(5,15,20,.96);border-top:1px solid var(--line);padding:9px 5px calc(env(safe-area-inset-bottom) + 8px);backdrop-filter:blur(18px);z-index:8}.nav button{border:0;background:none;color:#73868c;font-size:10px}.nav .ico{font-size:20px;display:block;margin-bottom:3px}.nav button.active{color:var(--green)}
-.page{display:none}.page.active{display:block}.title{font-size:27px;font-weight:900;margin:7px 2px 17px}
-.barwrap{height:9px;border-radius:10px;background:#17323b;overflow:hidden;margin:10px 0}.bar{height:100%;background:var(--green)}
-.chart{height:150px;display:flex;align-items:end;gap:9px;padding-top:15px}.col{flex:1;text-align:center;color:var(--muted);font-size:9px}.col i{display:block;background:#31515c;border-radius:7px 7px 3px 3px;min-height:4px;margin-bottom:6px}.col.today i{background:var(--green)}
-.goal{margin-bottom:12px}.goal h3{margin:0 0 5px}.big{font-size:28px;font-weight:900}.insight{margin-top:10px;padding:14px;background:#0d2630;border-radius:16px;color:#c9d7d8;font-size:13px;line-height:1.45}
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;align-items:flex-end;justify-content:center;padding:15px;z-index:20}.modal.show{display:flex}.sheet{width:min(560px,100%);max-height:88vh;overflow:auto;background:#091a22;border:1px solid var(--line);border-radius:27px;padding:20px}.sheet h2{margin:0 0 16px}.field{margin:14px 0}.field label{display:block;color:#9db0b5;font-size:12px;margin-bottom:7px}input,select,textarea{width:100%;background:#061219;color:white;border:1px solid #21404b;border-radius:14px;padding:14px;font-size:16px}textarea{min-height:85px}.chips{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.chip{border:1px solid #24434d;background:#0d242d;color:#c9d6d8;padding:12px 5px;border-radius:14px;font-size:12px}.chip.sel{border-color:var(--green);color:var(--green);background:#103529}.sheetactions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:16px}.sheetactions button{border:0;border-radius:14px;padding:14px;font-weight:850}.save{background:var(--green);color:#052117}.cancel{background:#142a33;color:white}.danger{color:var(--red)}
-.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:7px;text-align:center}.calday{padding:9px 2px;border-radius:50%;font-size:12px}.under{background:#123e2c;color:var(--green)}.over{background:#422125;color:#ff7777}.neutral{background:#26343a}
-</style></head>
-<body><div class="app">
-<section id="home" class="page active"><header><div class="brand">☁ <span>Puff</span> Tracker</div><button class="icon" onclick="openSettings()">⚙</button></header>
-<div class="date" id="dateLabel"></div><div class="card"><div class="ring" id="ring"><div class="ringin"><small>Today</small><div class="count" id="count">0</div><div class="puffs">PUFFS</div><div class="target">Target: <span id="target">40</span> / day</div></div></div><div class="remain" id="remaining"></div></div>
-<button class="mainbtn" onclick="openLog()">＋ 1 PUFF</button><div class="twobtn"><button class="secondary" onclick="quick()">⚡ Quick +1</button><button class="secondary" onclick="undo()">↶ Undo</button></div>
-<div class="section">TODAY'S OVERVIEW</div><div class="stats"><div class="stat"><small>Yesterday</small><b id="yesterday">—</b></div><div class="stat"><small>7-Day Avg</small><b id="avg">0</b></div><div class="stat"><small>Longest Gap</small><b id="gap">—</b></div></div>
-</section>
-
-<section id="history" class="page"><div class="title">History</div><div class="card"><div class="stats"><div class="stat"><small>Today</small><b id="hToday">0</b></div><div class="stat"><small>Avg Craving</small><b id="hCrave">—</b></div><div class="stat"><small>First Puff</small><b id="hFirst">—</b></div></div><div id="logList" style="margin-top:12px"></div></div></section>
-
-<section id="stats" class="page"><div class="title">Stats</div><div class="card"><small style="color:var(--green);font-weight:800">LAST 7 DAYS</small><div class="chart" id="chart"></div><div class="stats" style="margin-top:15px"><div class="stat"><small>Total</small><b id="weekTotal">0</b></div><div class="stat"><small>Daily Avg</small><b id="weekAvg">0</b></div><div class="stat"><small>vs Previous</small><b class="good" id="weekChange">—</b></div></div></div><div class="section">INSIGHTS</div><div class="card" id="insights"></div></section>
-
-<section id="goals" class="page"><div class="title">Goals & Reductions</div><div class="card goal"><h3>🎯 Daily Target</h3><div class="big"><span id="gTarget">40</span> puffs</div><div class="barwrap"><div class="bar" id="goalbar"></div></div><div class="meta" id="goalText"></div></div><div class="card goal"><h3>📉 Weekly Goal</h3><div>Reduce by <b id="gReduce">10</b>%</div><div class="insight" id="goalAdvice"></div></div><div class="section">RECENT DAYS</div><div class="card"><div class="calendar" id="calendar"></div></div></section>
-
-<section id="more" class="page"><div class="title">More</div><div class="card"><div class="listrow"><span>🎯 Daily Target</span><b id="mTarget">40</b></div><div class="listrow"><span>📉 Weekly Reduction</span><b id="mReduce">10%</b></div><div class="listrow"><span>💾 Export Data</span><button class="secondary" onclick="exportData()">Export</button></div><div class="listrow"><span>🗑 Reset Today's Data</span><button class="secondary danger" onclick="resetToday()">Reset</button></div></div><div class="section">ABOUT</div><div class="card"><div class="listrow"><span>Puff Tracker</span><b>V3.1</b></div><div class="meta">Your tracking information is stored locally on this device.</div></div></section>
+:root{--g:#22ef8b;--bg:#061219;--panel:#0d222b;--line:#1a3c46;--muted:#8ea2a8}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{touch-action:manipulation;overscroll-behavior:none}
+body{margin:0;min-height:100vh;background:radial-gradient(circle at top,#103642,#061219 42%);color:white;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding:calc(env(safe-area-inset-top) + 14px) 14px calc(env(safe-area-inset-bottom) + 20px)}
+.app{max-width:520px;margin:auto}
+header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+h1{font-size:23px;margin:0}.ver{font-size:11px;color:var(--muted)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:24px;padding:18px}
+.counter{text-align:center;padding:10px 0}.count{font-size:74px;font-weight:900;line-height:.95}.label{font-weight:800;margin-top:8px}.sub{color:var(--muted);font-size:13px;margin-top:6px}
+.progress{height:10px;border-radius:10px;background:#183640;overflow:hidden;margin:18px 0 10px}.progress>div{height:100%;background:var(--g);width:0}.remain{color:var(--g);font-weight:800;text-align:center}
+.tap-zone{width:100%;min-height:300px;margin:14px 0 12px;border:0;border-radius:34px;background:linear-gradient(145deg,#29f59a,#17d880);color:#042217;display:flex;flex-direction:column;align-items:center;justify-content:center;user-select:none;-webkit-user-select:none;touch-action:manipulation;box-shadow:0 16px 36px rgba(34,239,139,.16);transition:transform .08s ease,filter .08s ease}
+.tap-zone:active,.tap-zone.pressed{transform:scale(.985);filter:brightness(.92)}
+.plus{font-size:76px;font-weight:500;line-height:.8}.tap-title{font-size:31px;font-weight:900;margin-top:14px}.tap-sub{font-size:13px;font-weight:700;opacity:.72;margin-top:6px}
+.controls{display:grid;grid-template-columns:1fr 1fr;gap:10px}.ctrl{border:1px solid var(--line);background:var(--panel);color:white;border-radius:18px;padding:15px;font-weight:800;touch-action:manipulation}.ctrl:active{background:#15313a}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:14px}.stat{background:var(--panel);border:1px solid var(--line);border-radius:17px;padding:12px;text-align:center}.stat span{display:block;color:var(--muted);font-size:11px}.stat b{font-size:19px;display:block;margin-top:4px}
+.feedback{height:25px;text-align:center;color:var(--g);font-size:13px;font-weight:800;margin-top:8px;opacity:0;transition:opacity .12s}.feedback.show{opacity:1}.quick-help{margin-top:14px;padding:13px;background:#0b1c24;border-radius:16px;color:var(--muted);font-size:12px;line-height:1.45}
+</style>
+</head>
+<body>
+<div class="app">
+<header><h1>☁ <span style="color:var(--g)">Puff</span> Tracker</h1><div class="ver">V4.1 Easy Tap</div></header>
+<div class="card">
+<div class="counter"><div class="count" id="count">0</div><div class="label">PUFFS TODAY</div><div class="sub">Target <span id="target">40</span> / day</div></div>
+<div class="progress"><div id="bar"></div></div><div class="remain" id="remain"></div>
 </div>
-
-<nav class="nav"><button class="active" onclick="showPage('home',this)"><span class="ico">⌂</span>Home</button><button onclick="showPage('history',this)"><span class="ico">◷</span>History</button><button onclick="showPage('stats',this)"><span class="ico">▥</span>Stats</button><button onclick="showPage('goals',this)"><span class="ico">♡</span>Goals</button><button onclick="showPage('more',this)"><span class="ico">•••</span>More</button></nav>
-
-<div class="modal" id="logModal"><div class="sheet"><h2>Record Puff</h2><div class="field"><label>Trigger — why now?</label><div class="chips" id="chips"></div></div><div class="field"><label>Craving level: <b id="craveVal">5</b>/10</label><input type="range" min="1" max="10" value="5" id="crave" oninput="craveVal.textContent=this.value"></div><div class="field"><label>Note (optional)</label><textarea id="note" placeholder="e.g. after lunch, stressful meeting..."></textarea></div><div class="sheetactions"><button class="cancel" onclick="closeLog()">Cancel</button><button class="save" onclick="savePuff()">✓ Save Puff</button></div></div></div>
-<div class="modal" id="settingsModal"><div class="sheet"><h2>Settings</h2><div class="field"><label>Daily Target</label><input type="number" id="targetInput" min="1"></div><div class="field"><label>Weekly Reduction Goal (%)</label><input type="number" id="reduceInput" min="0" max="50"></div><div class="sheetactions"><button class="cancel" onclick="settingsModal.classList.remove('show')">Cancel</button><button class="save" onclick="saveSettings()">Save</button></div></div></div>
-
+<button class="tap-zone" id="tapZone" type="button" aria-label="Add one puff"><div class="plus">＋</div><div class="tap-title">TAP = +1 PUFF</div><div class="tap-sub">Tap anywhere in this big area</div></button>
+<div class="feedback" id="feedback" aria-live="polite"></div>
+<div class="controls"><button class="ctrl" id="undoBtn" type="button">↶ Undo Last</button><button class="ctrl" id="detailsBtn" type="button">✎ Details Later</button></div>
+<div class="stats"><div class="stat"><span>Yesterday</span><b id="yday">—</b></div><div class="stat"><span>7-Day Avg</span><b id="avg">0</b></div><div class="stat"><span>Last Puff</span><b id="last">—</b></div></div>
+<div class="quick-help">Double-tap zoom is disabled. You can tap quickly several times. If you add one too many, use <b>Undo Last</b>.</div>
+</div>
 <script>
-const KEY="puffTrackerV3",OLD="puffTrackerV2"; const triggers=["Stress","Boredom","After Meal","Driving","Work Break","Coffee / Tea","Gaming","Social","Other"]; let selected="Habit";
-function dk(d=new Date()){let x=new Date(d);x.setMinutes(x.getMinutes()-x.getTimezoneOffset());return x.toISOString().slice(0,10)}
-let data={target:40,reduce:10,days:{}};
-function load(){try{let s=JSON.parse(localStorage.getItem(KEY));if(s)data={...data,...s};else{let o=JSON.parse(localStorage.getItem(OLD));if(o){data.target=o.target||40;data.reduce=o.reductionGoal||10;data.days=o.days||{};save()}}}catch{} day();render()}
-function day(k=dk()){if(!data.days[k])data.days[k]={count:0,logs:[]};return data.days[k]} function save(){localStorage.setItem(KEY,JSON.stringify(data))}
-function quick(){let t=day();t.count++;t.logs.push({time:new Date().toISOString(),trigger:"Quick",craving:0,note:""});save();render();if(navigator.vibrate)navigator.vibrate(35)}
-function undo(){let t=day();if(t.count){t.count--;t.logs.pop();save();render()}}
-function openLog(){selected="Habit";chips.innerHTML=triggers.map(x=>`<button class="chip" onclick="selectTrigger(this,'${x}')">${x}</button>`).join("");logModal.classList.add("show")}
-function selectTrigger(el,x){selected=x;document.querySelectorAll(".chip").forEach(c=>c.classList.remove("sel"));el.classList.add("sel")}
-function closeLog(){logModal.classList.remove("show")}
-function savePuff(){let t=day();t.count++;t.logs.push({time:new Date().toISOString(),trigger:selected,craving:+crave.value,note:note.value.trim()});note.value="";crave.value=5;craveVal.textContent=5;save();closeLog();render()}
-function past(n){let d=new Date();d.setDate(d.getDate()-n);return {k:dk(d),d,x:data.days[dk(d)]}}
-function time(iso){return new Date(iso).toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"})}
-function longestGap(logs){if(logs.length<2)return"—";let a=[...logs].sort((x,y)=>new Date(x.time)-new Date(y.time)),m=0;for(let i=1;i<a.length;i++)m=Math.max(m,new Date(a[i].time)-new Date(a[i-1].time));let mins=Math.floor(m/60000);return mins>=60?`${Math.floor(mins/60)}h ${mins%60}m`:`${mins}m`}
-function render(){
- let t=day(),pct=Math.min(t.count/data.target,1);dateLabel.textContent=new Date().toLocaleDateString([],{weekday:"short",day:"numeric",month:"short",year:"numeric"});count.textContent=t.count;target.textContent=data.target;remaining.textContent=`${Math.max(data.target-t.count,0)} remaining • ${Math.round(pct*100)}% of daily target`;ring.style.setProperty("--deg",pct*360+"deg");
- let y=past(1).x;yesterday.textContent=y?y.count:"—";let vals=[];for(let i=0;i<7;i++){let x=past(i).x;if(x)vals.push(x.count)}avg.textContent=vals.length?(vals.reduce((a,b)=>a+b,0)/vals.length).toFixed(1):"0";gap.textContent=longestGap(t.logs||[]);
- hToday.textContent=t.count;let cs=(t.logs||[]).map(x=>x.craving).filter(Boolean);hCrave.textContent=cs.length?(cs.reduce((a,b)=>a+b,0)/cs.length).toFixed(1):"—";hFirst.textContent=t.logs?.length?time(t.logs[0].time):"—";
- logList.innerHTML=t.logs?.length?[...t.logs].reverse().map(x=>`<div class="listrow"><div><b>${time(x.time)} · ${x.trigger}</b><div class="meta">${x.note||"No note"}</div></div><span class="badge">${x.craving?x.craving+"/10":"Quick"}</span></div>`).join(""):'<div class="meta">No puffs logged today.</div>';
- let seven=[];for(let i=6;i>=0;i--){let p=past(i);seven.push({label:p.d.toLocaleDateString([],{weekday:"short"}),count:p.x?.count||0,today:i===0})}let max=Math.max(1,...seven.map(x=>x.count));chart.innerHTML=seven.map(x=>`<div class="col ${x.today?"today":""}"><b>${x.count}</b><i style="height:${Math.max(4,x.count/max*100)}px"></i>${x.label}</div>`).join("");let total=seven.reduce((a,b)=>a+b.count,0);weekTotal.textContent=total;weekAvg.textContent=(total/7).toFixed(1);
- let trig={};Object.values(data.days).forEach(d=>(d.logs||[]).forEach(l=>trig[l.trigger]=(trig[l.trigger]||0)+1));let top=Object.entries(trig).sort((a,b)=>b[1]-a[1])[0];insights.innerHTML=`<div class="insight"><b>Most common trigger</b><br>${top?top[0]+" · "+top[1]+" puffs":"Keep tracking to identify it."}</div><div class="insight"><b>Today's pattern</b><br>${t.count<=data.target?"You're currently within your daily target.":"You've passed today's target. Use the log to identify the strongest trigger."}</div>`;
- gTarget.textContent=mTarget.textContent=data.target;gReduce.textContent=data.reduce;mReduce.textContent=data.reduce+"%";goalbar.style.width=Math.min(100,pct*100)+"%";goalText.textContent=`${t.count} / ${data.target} puffs · ${Math.max(0,data.target-t.count)} remaining`;goalAdvice.textContent=`Your current goal is to reduce your average by ${data.reduce}% each week. Adjust this gradually based on your actual usage.`;
- let cal=[];for(let i=20;i>=0;i--){let p=past(i),c=p.x?.count;if(c==null)cal.push(`<div class="calday neutral">·</div>`);else cal.push(`<div class="calday ${c<=data.target?"under":"over"}">${p.d.getDate()}</div>`)}calendar.innerHTML=cal.join("");
-}
-function showPage(id,b){document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));document.getElementById(id).classList.add("active");document.querySelectorAll(".nav button").forEach(x=>x.classList.remove("active"));b.classList.add("active");render()}
-function openSettings(){targetInput.value=data.target;reduceInput.value=data.reduce;settingsModal.classList.add("show")}
-function saveSettings(){if(+targetInput.value>0)data.target=Math.round(+targetInput.value);if(+reduceInput.value>=0&&+reduceInput.value<=50)data.reduce=+reduceInput.value;save();settingsModal.classList.remove("show");render()}
-function resetToday(){if(confirm("Reset today's tracking data?")){data.days[dk()]={count:0,logs:[]};save();render()}}
-function exportData(){let blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="puff-tracker-backup.json";a.click();URL.revokeObjectURL(a.href)}
-load();if("serviceWorker"in navigator)navigator.serviceWorker.register("service-worker.js").catch(()=>{});
-</script></body></html>
+const KEY="puffTrackerV3";let data={target:40,reduce:10,days:{}};
+function dayKey(d=new Date()){const x=new Date(d);x.setMinutes(x.getMinutes()-x.getTimezoneOffset());return x.toISOString().slice(0,10)}
+function day(k=dayKey()){if(!data.days[k])data.days[k]={count:0,logs:[]};return data.days[k]}
+function save(){localStorage.setItem(KEY,JSON.stringify(data))}
+function load(){try{const s=JSON.parse(localStorage.getItem(KEY));if(s)data={...data,...s}}catch{} render()}
+function previous(n){const d=new Date();d.setDate(d.getDate()-n);return data.days[dayKey(d)]}
+function showFeedback(t){feedback.textContent=t;feedback.classList.add("show");clearTimeout(window.ft);window.ft=setTimeout(()=>feedback.classList.remove("show"),650)}
+function logPuff(source="Easy Tap"){const d=day();d.count++;d.logs=d.logs||[];d.logs.push({time:new Date().toISOString(),trigger:source,craving:0,note:""});save();render();showFeedback("+1 · "+d.count+" today");if(navigator.vibrate)navigator.vibrate(20)}
+function undo(){const d=day();if(!d.count)return;d.count--;if(d.logs?.length)d.logs.pop();save();render();showFeedback("Undo · "+d.count+" today")}
+function render(){const d=day(),pct=Math.min(100,(d.count/data.target)*100);count.textContent=d.count;target.textContent=data.target;bar.style.width=pct+"%";remain.textContent=Math.max(0,data.target-d.count)+" remaining";yday.textContent=previous(1)?.count??"—";const vals=[];for(let i=0;i<7;i++){const x=previous(i);if(x)vals.push(x.count)}avg.textContent=vals.length?(vals.reduce((a,b)=>a+b,0)/vals.length).toFixed(1):"0";last.textContent=d.logs?.length?new Date(d.logs[d.logs.length-1].time).toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"}):"—"}
+tapZone.addEventListener("pointerdown",()=>tapZone.classList.add("pressed"));tapZone.addEventListener("pointerup",()=>tapZone.classList.remove("pressed"));tapZone.addEventListener("pointercancel",()=>tapZone.classList.remove("pressed"));tapZone.addEventListener("click",()=>logPuff("Easy Tap"));undoBtn.addEventListener("click",undo);detailsBtn.addEventListener("click",()=>showFeedback("Details can be added in the full log version"));
+let lastTouchEnd=0;document.addEventListener("touchend",e=>{const now=Date.now();if(now-lastTouchEnd<=300)e.preventDefault();lastTouchEnd=now},{passive:false});document.addEventListener("gesturestart",e=>e.preventDefault(),{passive:false});
+function handleQuick(){const q=new URLSearchParams(location.search);if(q.get("quick")==="1"){logPuff("iPhone Shortcut");history.replaceState({},"",location.pathname)}}
+load();handleQuick();if("serviceWorker"in navigator)navigator.serviceWorker.register("service-worker.js").catch(()=>{});
+</script>
+</body>
+</html>
