@@ -1,103 +1,92 @@
-<!doctype html>
-<html>
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="theme-color" content="#061219">
-<link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="icon-192.png">
-<title>Puff Tracker V4.2</title>
+<!doctype html><html><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="theme-color" content="#061219">
+<link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-192.png"><title>Puff Tracker V5</title>
 <style>
-:root{--g:#22ef8b;--bg:#061219;--panel:#0d222b;--line:#1a3c46;--muted:#8ea2a8;--red:#ff6961}
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{touch-action:manipulation;overscroll-behavior:none}
-body{margin:0;min-height:100vh;background:radial-gradient(circle at top,#103642,#061219 42%);color:white;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding:calc(env(safe-area-inset-top) + 14px) 14px calc(env(safe-area-inset-bottom) + 86px)}
-.app{max-width:540px;margin:auto}
-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
-h1{font-size:23px;margin:0}.ver{font-size:11px;color:var(--muted)}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:16px}
-.page{display:none}.page.active{display:block}
-.counter{text-align:center;padding:8px 0}.count{font-size:72px;font-weight:900;line-height:.95}.label{font-weight:800;margin-top:8px}.sub{color:var(--muted);font-size:13px;margin-top:6px}
-.progress{height:10px;border-radius:10px;background:#183640;overflow:hidden;margin:18px 0 10px}.progress>div{height:100%;background:var(--g);width:0}.remain{color:var(--g);font-weight:800;text-align:center}
-.tap-zone{width:100%;min-height:250px;margin:14px 0 10px;border:0;border-radius:30px;background:linear-gradient(145deg,#29f59a,#17d880);color:#042217;display:flex;flex-direction:column;align-items:center;justify-content:center;user-select:none;-webkit-user-select:none;touch-action:manipulation;transition:transform .08s ease,filter .08s ease}
-.tap-zone:active,.tap-zone.pressed{transform:scale(.985);filter:brightness(.92)}
-.plus{font-size:68px;line-height:.8}.tap-title{font-size:29px;font-weight:900;margin-top:13px}.tap-sub{font-size:13px;font-weight:700;opacity:.72;margin-top:6px}
-.controls{display:grid;grid-template-columns:1fr 1fr;gap:10px}.ctrl{border:1px solid var(--line);background:var(--panel);color:white;border-radius:17px;padding:14px;font-weight:800;touch-action:manipulation}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:13px}.stat{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:12px;text-align:center}.stat span{display:block;color:var(--muted);font-size:11px}.stat b{font-size:18px;display:block;margin-top:4px}
-.feedback{height:24px;text-align:center;color:var(--g);font-size:13px;font-weight:800;margin-top:6px;opacity:0}.feedback.show{opacity:1}
-.section{font-size:16px;font-weight:850;margin:18px 2px 10px}
-.row{display:flex;justify-content:space-between;gap:10px;padding:13px 0;border-bottom:1px solid var(--line)}.row:last-child{border-bottom:0}.meta{font-size:11px;color:var(--muted);margin-top:4px}.badge{font-size:11px;padding:4px 8px;border-radius:9px;background:#123429;color:var(--g)}
-.chart{height:160px;display:flex;align-items:end;gap:8px}.col{flex:1;text-align:center;color:var(--muted);font-size:10px}.col i{display:block;background:#31515c;border-radius:6px 6px 2px 2px;min-height:4px;margin:5px auto;width:70%}.col.today i{background:var(--g)}
-.nav{position:fixed;left:50%;transform:translateX(-50%);bottom:0;width:min(570px,100%);display:grid;grid-template-columns:repeat(4,1fr);background:rgba(5,14,19,.97);border-top:1px solid var(--line);padding:8px 5px calc(env(safe-area-inset-bottom) + 7px);backdrop-filter:blur(18px)}
-.nav button{border:0;background:none;color:#758890;font-size:10px}.nav .ico{font-size:19px;display:block;margin-bottom:2px}.nav .active{color:var(--g)}
-.goal{margin-bottom:10px}.big{font-size:26px;font-weight:900}
-</style>
-</head>
-<body>
-<div class="app">
-<header><h1>☁ <span style="color:var(--g)">Puff</span> Tracker</h1><div class="ver">V4.2</div></header>
+:root{--g:#22ef8b;--bg:#061219;--p:#0d222b;--l:#1a3c46;--m:#8ea2a8;--y:#ffd166;--r:#ff6b6b}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html,body{touch-action:manipulation;overscroll-behavior:none}
+body{margin:0;min-height:100vh;background:radial-gradient(circle at top,#103642,#061219 43%);color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding:calc(env(safe-area-inset-top) + 13px) 14px calc(env(safe-area-inset-bottom) + 82px)}
+.app{max-width:550px;margin:auto}.page{display:none}.page.active{display:block}header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}h1{font-size:22px;margin:0}.ver,.muted{color:var(--m);font-size:12px}
+.card{background:var(--p);border:1px solid var(--l);border-radius:22px;padding:16px;margin-bottom:11px}.center{text-align:center}.count{font-size:72px;font-weight:950;line-height:.95}.lbl{font-weight:850;margin-top:7px}.green{color:var(--g)}.yellow{color:var(--y)}
+.progress{height:10px;background:#183640;border-radius:10px;overflow:hidden;margin:14px 0 8px}.progress>div{height:100%;background:var(--g)}
+.tap{width:100%;min-height:230px;border:0;border-radius:30px;background:linear-gradient(145deg,#2af59b,#18d77f);color:#042217;display:flex;flex-direction:column;align-items:center;justify-content:center;touch-action:manipulation;user-select:none;-webkit-user-select:none;transition:.07s;margin-bottom:8px}.tap:active{transform:scale(.985);filter:brightness(.91)}.plus{font-size:66px;line-height:.7}.tap b{font-size:29px;margin-top:15px}.tap small{font-weight:750;opacity:.7;margin-top:6px}
+.feedback{text-align:center;height:23px;color:var(--g);font-weight:850;font-size:13px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:9px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.stat{background:var(--p);border:1px solid var(--l);border-radius:16px;padding:11px;text-align:center}.stat span{display:block;color:var(--m);font-size:10px}.stat b{font-size:17px;display:block;margin-top:4px}
+.btn{border:1px solid var(--l);background:var(--p);color:white;border-radius:16px;padding:13px;font-weight:800;width:100%;touch-action:manipulation}.delay{background:#153526;border-color:#226842;color:var(--g)}.section{font-size:16px;font-weight:900;margin:18px 2px 9px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--l)}.row:last-child{border-bottom:0}.badge{background:#123429;color:var(--g);border-radius:9px;padding:4px 8px;font-size:10px}.red{color:var(--r)}
+.trigger{display:flex;gap:7px;flex-wrap:wrap;max-height:0;overflow:hidden;transition:max-height .2s;margin-bottom:8px}.trigger.show{max-height:120px}.chip{border:1px solid var(--l);background:#102831;color:#d8e6e9;border-radius:14px;padding:9px 11px;font-size:12px}
+.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:10px}.tabs button{border:1px solid var(--l);background:var(--p);color:var(--m);padding:10px;border-radius:13px;font-weight:800}.tabs .on{background:#174331;color:var(--g)}
+.chart{height:165px;display:flex;align-items:flex-end;gap:6px}.col{flex:1;text-align:center;color:var(--m);font-size:9px}.col i{display:block;background:#31515c;border-radius:5px 5px 2px 2px;min-height:3px;width:70%;margin:4px auto}.col.now i{background:var(--g)}
+.heatrow{display:grid;grid-template-columns:42px 1fr 30px;align-items:center;gap:8px;margin:7px 0;font-size:11px}.heat{height:12px;background:#183640;border-radius:7px;overflow:hidden}.heat div{height:100%;background:var(--g)}
+input{width:100%;background:#081a21;color:white;border:1px solid var(--l);border-radius:12px;padding:11px;font-size:16px}
+.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(570px,100%);display:grid;grid-template-columns:repeat(4,1fr);background:rgba(5,14,19,.97);border-top:1px solid var(--l);padding:7px 4px calc(env(safe-area-inset-bottom) + 6px);backdrop-filter:blur(18px)}.nav button{border:0;background:none;color:#74888e;font-size:10px}.nav .active{color:var(--g)}.ico{font-size:19px;display:block}
+.toast{position:fixed;left:50%;top:calc(env(safe-area-inset-top) + 15px);transform:translateX(-50%);background:var(--g);color:#042217;border-radius:15px;padding:12px 18px;font-weight:900;z-index:99}
+</style></head><body><div class="app">
+<header><h1>☁ <span class="green">Puff</span> Tracker</h1><span class="ver">V5</span></header>
 
 <section id="home" class="page active">
-<div class="card">
-<div class="counter"><div class="count" id="count">0</div><div class="label">PUFFS TODAY</div><div class="sub">Target <span id="target">40</span> / day</div></div>
-<div class="progress"><div id="bar"></div></div><div class="remain" id="remain"></div>
-</div>
-<button class="tap-zone" id="tapZone" type="button"><div class="plus">＋</div><div class="tap-title">TAP = +1 PUFF</div><div class="tap-sub">Tap anywhere in this big area</div></button>
-<div class="feedback" id="feedback"></div>
-<div class="controls"><button class="ctrl" id="undoBtn">↶ Undo Last</button><button class="ctrl" id="detailBtn">✎ Add Details</button></div>
-<div class="stats"><div class="stat"><span>Yesterday</span><b id="yday">—</b></div><div class="stat"><span>7-Day Avg</span><b id="avg">0</b></div><div class="stat"><span>Last Puff</span><b id="last">—</b></div></div>
+<div class="card center"><div class="count" id="count">0</div><div class="lbl">PUFFS TODAY</div><div class="muted">Adaptive target <span id="target">40</span>/day</div><div class="progress"><div id="bar"></div></div><div id="vsWeek" class="green"></div></div>
+<button id="tap" class="tap"><span class="plus">＋</span><b>ADD 1 PUFF</b><small>Tap anywhere · rapid tap enabled</small></button><div class="feedback" id="feedback"></div>
+<div class="trigger" id="triggers"><button class="chip">Stress</button><button class="chip">After meal</button><button class="chip">Driving</button><button class="chip">Bored</button><button class="chip">Work</button><button class="chip">Other</button></div>
+<div class="grid2"><button class="btn" onclick="undo()">↶ Undo Last</button><button class="btn delay" onclick="startDelay()">⏱ Delay 10 min</button></div>
+<div class="grid3" style="margin-top:10px"><div class="stat"><span>Last Puff</span><b id="last">—</b></div><div class="stat"><span>Current Gap</span><b id="curGap">—</b></div><div class="stat"><span>Longest Gap</span><b id="longGap">—</b></div></div>
+<div class="card center" style="margin-top:10px"><div class="green" style="font-size:24px">🔥 <b id="streak">0</b></div><div class="muted">days under target</div></div>
 </section>
 
 <section id="history" class="page">
-<div class="section">Today Log</div><div class="card" id="todayLog"></div>
-<div class="section">Last 7 Days</div><div class="card" id="historyRows"></div>
+<div class="tabs"><button class="on" onclick="setRange(1,this)">Today</button><button onclick="setRange(7,this)">7 Days</button><button onclick="setRange(30,this)">30 Days</button></div>
+<div class="card" id="historyList"></div>
+<div class="section">Sessions</div><div class="card" id="sessions"></div>
 </section>
 
-<section id="statsPage" class="page">
+<section id="trends" class="page">
 <div class="section">7-Day Trend</div><div class="card"><div class="chart" id="chart"></div></div>
-<div class="section">Summary</div><div class="stats"><div class="stat"><span>7-Day Total</span><b id="weekTotal">0</b></div><div class="stat"><span>Best Day</span><b id="bestDay">—</b></div><div class="stat"><span>Longest Gap</span><b id="gap">—</b></div></div>
+<div class="grid3"><div class="stat"><span>7-Day Avg</span><b id="avg">0</b></div><div class="stat"><span>7-Day Total</span><b id="total7">0</b></div><div class="stat"><span>Delay Wins</span><b id="delayWins">0</b></div></div>
+<div class="section">Hourly Heatmap</div><div class="card" id="heatmap"></div>
+<div class="section">Top Triggers</div><div class="card" id="triggerStats"></div>
 </section>
 
 <section id="goals" class="page">
-<div class="section">Daily Goal</div><div class="card goal"><div class="big"><span id="goalTarget">40</span> puffs/day</div><div class="progress"><div id="goalBar"></div></div><div class="meta" id="goalText"></div></div>
-<div class="section">Reduction</div><div class="card"><b>Weekly reduction goal: <span id="reduce">10</span>%</b><div class="meta" style="margin-top:8px">Use your actual 7-day average to lower the target gradually.</div></div>
-</section>
-</div>
+<div class="section">Adaptive Reduction Target</div><div class="card"><div class="row"><span>Recent 7-day average</span><b id="goalAvg">0</b></div><div class="row"><span>Current target</span><b class="green" id="goalTarget">40</b></div><div class="row"><span>Next suggested target</span><b class="yellow" id="nextTarget">—</b></div><div class="muted" style="margin-top:10px">Target suggestion uses your recent average and weekly reduction percentage. It never changes your saved target automatically.</div></div>
+<div class="section">Settings</div><div class="card"><label class="muted">Daily target</label><input id="targetInput" type="number" min="1"><label class="muted" style="display:block;margin-top:12px">Weekly reduction %</label><input id="reduceInput" type="number" min="1" max="50"><button class="btn delay" style="margin-top:12px" onclick="saveSettings()">Save Settings</button></div>
+<div class="section">Backup & Restore</div><div class="grid2"><button class="btn" onclick="backup()">Export Backup</button><button class="btn" onclick="restoreFile.click()">Restore Backup</button><input id="restoreFile" type="file" accept=".json" hidden></div>
+</section></div>
 
-<nav class="nav">
-<button class="active" data-page="home"><span class="ico">⌂</span>Home</button>
-<button data-page="history"><span class="ico">◷</span>History</button>
-<button data-page="statsPage"><span class="ico">▥</span>Stats</button>
-<button data-page="goals"><span class="ico">♡</span>Goals</button>
-</nav>
+<nav class="nav"><button class="active" data-p="home"><span class="ico">⌂</span>Home</button><button data-p="history"><span class="ico">◷</span>History</button><button data-p="trends"><span class="ico">▥</span>Trends</button><button data-p="goals"><span class="ico">♡</span>Goals</button></nav>
 
 <script>
-const KEY="puffTrackerV3";let data={target:40,reduce:10,days:{}};
+const KEY="puffTrackerV3";let data={target:40,reduce:10,days:{},delays:[]},range=1;
 function dk(d=new Date()){let x=new Date(d);x.setMinutes(x.getMinutes()-x.getTimezoneOffset());return x.toISOString().slice(0,10)}
 function day(k=dk()){if(!data.days[k])data.days[k]={count:0,logs:[]};return data.days[k]}
 function save(){localStorage.setItem(KEY,JSON.stringify(data))}
-function load(){try{let s=JSON.parse(localStorage.getItem(KEY));if(s)data={...data,...s}}catch{} render()}
-function past(n){let d=new Date();d.setDate(d.getDate()-n);return {date:d,key:dk(d),obj:data.days[dk(d)]}}
-function fmtTime(iso){return new Date(iso).toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"})}
-function fmtDate(d){return d.toLocaleDateString([],{weekday:"short",month:"short",day:"numeric"})}
-function feedbackMsg(t){feedback.textContent=t;feedback.classList.add("show");clearTimeout(window.ft);window.ft=setTimeout(()=>feedback.classList.remove("show"),650)}
-function add(src="Easy Tap"){let d=day();d.count++;d.logs=d.logs||[];d.logs.push({time:new Date().toISOString(),trigger:src,craving:0,note:""});save();render();feedbackMsg("+1 · "+d.count+" today");if(navigator.vibrate)navigator.vibrate(20)}
-function undo(){let d=day();if(!d.count)return;d.count--;if(d.logs?.length)d.logs.pop();save();render();feedbackMsg("Undo · "+d.count+" today")}
-function longestGap(logs){if(!logs||logs.length<2)return"—";let a=[...logs].sort((x,y)=>new Date(x.time)-new Date(y.time)),m=0;for(let i=1;i<a.length;i++)m=Math.max(m,new Date(a[i].time)-new Date(a[i-1].time));let mins=Math.floor(m/60000);return mins>=60?Math.floor(mins/60)+"h "+mins%60+"m":mins+"m"}
+function load(){try{let x=JSON.parse(localStorage.getItem(KEY));if(x)data={...data,...x,delays:x.delays||[]}}catch{}render()}
+function past(n){let d=new Date();d.setDate(d.getDate()-n);return{date:d,key:dk(d),obj:data.days[dk(d)]}}
+function ft(ms){if(ms==null||ms<0)return"—";let m=Math.floor(ms/60000);return m>=60?Math.floor(m/60)+"h "+m%60+"m":m+"m"}
+function logsFor(k){return data.days[k]?.logs||[]}
+function longest(logs){if(logs.length<2)return null;let a=[...logs].sort((x,y)=>new Date(x.time)-new Date(y.time)),mx=0;for(let i=1;i<a.length;i++)mx=Math.max(mx,new Date(a[i].time)-new Date(a[i-1].time));return mx}
+function msg(t){feedback.textContent=t;feedback.style.opacity=1;clearTimeout(window.mt);window.mt=setTimeout(()=>feedback.style.opacity=0,700)}
+function add(src="Easy Tap"){let d=day();d.count++;d.logs=d.logs||[];d.logs.push({time:new Date().toISOString(),trigger:src,craving:0,note:""});save();render();msg("+1 · "+d.count+" today");triggers.classList.add("show");clearTimeout(window.tt);window.tt=setTimeout(()=>triggers.classList.remove("show"),2500);if(navigator.vibrate)navigator.vibrate(20)}
+function undo(){let d=day();if(!d.count)return;d.count--;d.logs?.pop();save();render();msg("Last puff removed")}
+document.querySelectorAll(".chip").forEach(b=>b.onclick=()=>{let l=day().logs;if(l?.length){l[l.length-1].trigger=b.textContent;save();render();msg("Tagged: "+b.textContent)}triggers.classList.remove("show")});
+function startDelay(){data.delays.push({start:new Date().toISOString(),minutes:10,completed:false});save();msg("10-minute delay started ✓");setTimeout(()=>{let d=data.delays[data.delays.length-1];if(d&&!d.completed){d.completed=true;save();render();alert("10 minutes completed — nice delay.")}},600000)}
+function sessionsOf(logs){if(!logs.length)return[];let a=[...logs].sort((x,y)=>new Date(x.time)-new Date(y.time)),s=[],cur=[a[0]];for(let i=1;i<a.length;i++){if(new Date(a[i].time)-new Date(a[i-1].time)<=10*60000)cur.push(a[i]);else{s.push(cur);cur=[a[i]]}}s.push(cur);return s}
+function streakCount(){let n=0;for(let i=1;i<365;i++){let p=past(i);if(!p.obj)break;if(p.obj.count<=data.target)n++;else break}return n}
 function render(){
- let d=day(),pct=Math.min(100,d.count/data.target*100);count.textContent=d.count;target.textContent=data.target;bar.style.width=pct+"%";remain.textContent=Math.max(0,data.target-d.count)+" remaining";goalTarget.textContent=data.target;goalBar.style.width=pct+"%";goalText.textContent=d.count+" / "+data.target+" puffs";reduce.textContent=data.reduce||10;
- yday.textContent=past(1).obj?.count??"—";let vals=[];for(let i=0;i<7;i++){let o=past(i).obj;if(o)vals.push(o.count)}avg.textContent=vals.length?(vals.reduce((a,b)=>a+b,0)/vals.length).toFixed(1):"0";last.textContent=d.logs?.length?fmtTime(d.logs[d.logs.length-1].time):"—";gap.textContent=longestGap(d.logs||[]);
- todayLog.innerHTML=d.logs?.length?[...d.logs].reverse().map(x=>`<div class="row"><div><b>${fmtTime(x.time)}</b><div class="meta">${x.trigger||"Puff"}${x.note?" · "+x.note:""}</div></div><span class="badge">+1</span></div>`).join(""):'<div class="meta">No puffs logged today.</div>';
- let hs=[];for(let i=0;i<7;i++){let p=past(i);hs.push(`<div class="row"><span>${i===0?"Today":fmtDate(p.date)}</span><b>${p.obj?.count??0} puffs</b></div>`)}historyRows.innerHTML=hs.join("");
- let seven=[];for(let i=6;i>=0;i--){let p=past(i);seven.push({label:p.date.toLocaleDateString([],{weekday:"short"}),count:p.obj?.count||0,today:i===0})}let mx=Math.max(1,...seven.map(x=>x.count));chart.innerHTML=seven.map(x=>`<div class="col ${x.today?"today":""}"><b>${x.count}</b><i style="height:${Math.max(4,x.count/mx*110)}px"></i>${x.label}</div>`).join("");weekTotal.textContent=seven.reduce((a,b)=>a+b.count,0);let positive=seven.filter(x=>x.count>0);bestDay.textContent=positive.length?Math.min(...positive.map(x=>x.count)):"—";
+ let d=day(),logs=d.logs||[],pct=Math.min(100,d.count/data.target*100);count.textContent=d.count;target.textContent=data.target;bar.style.width=pct+"%";
+ let vals=[];for(let i=1;i<=7;i++){let o=past(i).obj;if(o)vals.push(o.count)}let av=vals.length?vals.reduce((a,b)=>a+b,0)/vals.length:0;vsWeek.textContent=av?((d.count-av)/av*100<=0?"↓ ":"↑ ")+Math.abs((d.count-av)/av*100).toFixed(0)+"% vs recent daily average":"Start logging to build your trend";
+ last.textContent=logs.length?new Date(logs[logs.length-1].time).toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"}):"—";curGap.textContent=logs.length?ft(Date.now()-new Date(logs[logs.length-1].time)):"—";longGap.textContent=ft(longest(logs));streak.textContent=streakCount();
+ renderHistory();renderTrends();targetInput.value=data.target;reduceInput.value=data.reduce||10;goalAvg.textContent=av.toFixed(1);goalTarget.textContent=data.target;nextTarget.textContent=av?Math.max(1,Math.round(av*(1-(data.reduce||10)/100)))+" / day":"—";
 }
-tapZone.addEventListener("pointerdown",()=>tapZone.classList.add("pressed"));tapZone.addEventListener("pointerup",()=>tapZone.classList.remove("pressed"));tapZone.addEventListener("pointercancel",()=>tapZone.classList.remove("pressed"));tapZone.addEventListener("click",()=>add("Easy Tap"));undoBtn.addEventListener("click",undo);detailBtn.addEventListener("click",()=>feedbackMsg("Detailed trigger entry can be added next"));
-document.querySelectorAll(".nav button").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));document.getElementById(b.dataset.page).classList.add("active");document.querySelectorAll(".nav button").forEach(x=>x.classList.remove("active"));b.classList.add("active");render()}));
-let lastTouchEnd=0;document.addEventListener("touchend",e=>{let now=Date.now();if(now-lastTouchEnd<=300)e.preventDefault();lastTouchEnd=now},{passive:false});document.addEventListener("gesturestart",e=>e.preventDefault(),{passive:false});
+function renderHistory(){let arr=[];for(let i=0;i<range;i++){let p=past(i),o=p.obj||{count:0,logs:[]};arr.push(`<div class="row"><div><b>${i===0?"Today":p.date.toLocaleDateString([],{weekday:"short",month:"short",day:"numeric"})}</b><div class="muted">${sessionsOf(o.logs||[]).length} sessions · longest gap ${ft(longest(o.logs||[]))}</div></div><b class="${o.count<=data.target?"green":"red"}">${o.count} / ${data.target}</b></div>`)}historyList.innerHTML=arr.join("");
+ let ss=sessionsOf(day().logs||[]);sessions.innerHTML=ss.length?[...ss].reverse().map(s=>{let st=new Date(s[0].time),en=new Date(s[s.length-1].time);return`<div class="row"><div><b>${st.toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"})}</b><div class="muted">${s.length>1?ft(en-st):"single puff"}</div></div><span class="badge">${s.length} puffs</span></div>`}).join(""):'<div class="muted">No sessions today.</div>'}
+function setRange(n,b){range=n;document.querySelectorAll(".tabs button").forEach(x=>x.classList.remove("on"));b.classList.add("on");renderHistory()}
+function renderTrends(){let seven=[];for(let i=6;i>=0;i--){let p=past(i);seven.push({label:p.date.toLocaleDateString([],{weekday:"short"}),count:p.obj?.count||0,now:i===0})}let mx=Math.max(1,...seven.map(x=>x.count));chart.innerHTML=seven.map(x=>`<div class="col ${x.now?"now":""}"><b>${x.count}</b><i style="height:${Math.max(3,x.count/mx*115)}px"></i>${x.label}</div>`).join("");let tot=seven.reduce((a,b)=>a+b.count,0);total7.textContent=tot;avg.textContent=(tot/7).toFixed(1);delayWins.textContent=(data.delays||[]).filter(x=>x.completed).length;
+ let hrs=Array(24).fill(0),tr={};for(let i=0;i<7;i++)for(let l of logsFor(past(i).key)){hrs[new Date(l.time).getHours()]++;let k=l.trigger||"Unspecified";tr[k]=(tr[k]||0)+1}let hm=Math.max(1,...hrs);heatmap.innerHTML=hrs.map((v,h)=>v?`<div class="heatrow"><span>${String(h).padStart(2,"0")}:00</span><div class="heat"><div style="width:${v/hm*100}%"></div></div><b>${v}</b></div>`:"").join("")||'<span class="muted">Not enough data yet.</span>';let ts=Object.entries(tr).sort((a,b)=>b[1]-a[1]);triggerStats.innerHTML=ts.length?ts.map(([k,v])=>`<div class="row"><span>${k}</span><b>${v}</b></div>`).join(""):'<span class="muted">Tag some puffs to see patterns.</span>'}
+function saveSettings(){data.target=Math.max(1,+targetInput.value||40);data.reduce=Math.min(50,Math.max(1,+reduceInput.value||10));save();render();alert("Settings saved.")}
+function backup(){let a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:"application/json"}));a.download="puff-tracker-backup-"+dk()+".json";a.click()}
+restoreFile.onchange=e=>{let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let x=JSON.parse(r.result);if(confirm("Replace current Puff Tracker data with this backup?")){data={...data,...x};save();render();alert("History restored.")}}catch{alert("Invalid backup file.")}};r.readAsText(f);e.target.value=""};
+document.querySelectorAll(".nav button").forEach(b=>b.onclick=()=>{document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));document.getElementById(b.dataset.p).classList.add("active");document.querySelectorAll(".nav button").forEach(x=>x.classList.remove("active"));b.classList.add("active");render()});
+tap.onclick=()=>add();let lastTouch=0;document.addEventListener("touchend",e=>{let n=Date.now();if(n-lastTouch<=300)e.preventDefault();lastTouch=n},{passive:false});document.addEventListener("gesturestart",e=>e.preventDefault(),{passive:false});
 function quick(){let q=new URLSearchParams(location.search);if(q.get("quick")==="1"){add("iPhone Shortcut");history.replaceState({},"",location.pathname)}}
-load();quick();if("serviceWorker"in navigator)navigator.serviceWorker.register("service-worker.js").catch(()=>{});
-</script>
-</body>
-</html>
+load();quick();setInterval(()=>{if(document.getElementById("home").classList.contains("active"))render()},60000);if("serviceWorker"in navigator)navigator.serviceWorker.register("service-worker.js").catch(()=>{});
+</script></body></html>
